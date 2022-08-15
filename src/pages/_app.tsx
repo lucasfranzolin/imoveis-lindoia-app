@@ -4,8 +4,10 @@ import 'nprogress/nprogress.css';
 import type { AppProps } from 'next/app';
 import Router from 'next/router';
 import NProgress from 'nprogress';
+import { Provider } from 'react-redux';
 
 import { useEffectOnce } from '../hooks/useEffectOnce';
+import { store } from '../store';
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffectOnce(() => {
@@ -23,7 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         };
     });
 
-    return <Component {...pageProps} />;
+    return (
+        <Provider store={store}>
+            <Component {...pageProps} />
+        </Provider>
+    );
 }
 
 export default MyApp;
