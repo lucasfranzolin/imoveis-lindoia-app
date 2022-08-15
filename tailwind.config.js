@@ -3,39 +3,37 @@ module.exports = {
     content: ['./src/**/*.{jsx,tsx}', './public/index.html'],
     theme: {
         colors: {
-            button: 'var(--color-button-text)',
             transparent: 'transparent',
             primary: {
-                100: 'var(--color-primary-100)',
-                200: 'var(--color-primary-200)',
-                300: 'var(--color-primary-300)',
-                600: 'var(--color-primary-600)',
-                700: 'var(--color-primary-700)',
-                800: 'var(--color-primary-800)',
-                900: 'var(--color-primary-900)',
+                DEFAULT: 'var(--color-primary)',
+                dark: 'var(--color-primary-dark)',
+                light: 'var(--color-primary-light)',
             },
             secondary: {
                 DEFAULT: 'var(--color-secondary)',
-                'washed-out': 'var(--color-secondary-washed-out)',
+                dark: 'var(--color-secondary-dark)',
+                light: 'var(--color-secondary-light)',
             },
-            accent: {
-                DEFAULT: 'var(--color-accent)',
-                hover: 'var(--color-accent-hover)',
-                disabled: 'var(--color-accent-disabled)',
+            gray: {
+                'title-active': 'var(--color-title-active)',
+                body: 'var(--color-body)',
+                label: 'var(--color-label)',
+                placeholder: 'var(--color-placeholder)',
+                line: 'var(--color-line)',
+                'input-bg': 'var(--color-input-bg)',
+                bg: 'var(--color-bg)',
+                'off-white': 'var(--color-off-white)',
             },
-            borders: {
-                DEFAULT: 'var(--color-primary-100)',
-            },
-            black: '#000',
+            error: 'var(--color-error)',
+            success: 'var(--color-success)',
             white: '#fff',
+            black: '#000',
+        },
+        ringWidth: {
+            DEFAULT: '2px',
+            0: '0px',
         },
         extend: {
-            borderRadius: {
-                5: '5px',
-                8: '8px',
-                20: '20px',
-                40: '40px',
-            },
             keyframes: {
                 breathe: {
                     '0%, 100%': {

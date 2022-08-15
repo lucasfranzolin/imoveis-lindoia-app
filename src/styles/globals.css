@@ -45,24 +45,26 @@ p.small {
 
 :root {
     font-size: 1rem;
-    --color-accent-disabled: #f5bfbf;
-    --color-accent-glow: rgba(253, 77, 77, 0.3);
-    --color-accent-hover: #fd6868;
-    --color-accent: #fd4d4d;
-    --color-primary-100-translucent: rgba(222, 227, 234, 0.15);
-    --color-primary-100: #f3f4f6;
-    --color-primary-200: #e5e7eb;
-    --color-primary-300: #d1d5db;
-    --color-primary-400: #9ca3af;
-    --color-primary-50: #f9fafb;
-    --color-primary-500: #6b7280;
-    --color-primary-600: #4b5563;
-    --color-primary-700: #374151;
-    --color-primary-800: #1f2937;
-    --color-primary-900: #111827;
-    --color-secondary-washed-out: #879eed;
-    --color-secondary: #5575e7;
-    --screen-height-reduction: 0px;
+
+    --color-title-active: #14142b;
+    --color-body: #4e4b66;
+    --color-label: #6e7191;
+    --color-placeholder: #a0a3bd;
+    --color-line: #d9dbe9;
+    --color-input-bg: #eff0f6;
+    --color-bg: #f7f7fc;
+    --color-off-white: #fcfcfc;
+
+    --color-primary: #3a86ff;
+    --color-primary-dark: #005ef4;
+    --color-primary-light: #639fff;
+
+    --color-secondary: #ffb338;
+    --color-secondary-dark: #f49700;
+    --color-secondary-light: #ffc363;
+
+    --color-error: #f13c4b;
+    --color-success: #81bb24;
 }
 
 h1 {
@@ -83,7 +85,7 @@ h4 {
 
 p {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 p.small {
@@ -109,12 +111,12 @@ body,
 }
 
 #nprogress .bar {
-    background: var(--color-accent-hover) !important;
+    background: var(--color-primary-light) !important;
 }
 
 #nprogress .peg {
-    box-shadow: 0 0 10px var(--color-accent-hover),
-        0 0 5px var(--color-accent-hover) !important;
+    box-shadow: 0 0 10px var(--color-primary-light),
+        0 0 5px var(--color-primary-light) !important;
 }
 
 button:focus {
