@@ -1,3 +1,24 @@
 {
-  "extends": "next/core-web-vitals"
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "es6": true,
+        "node": true,
+        "browser": true
+    },
+    "extends": [
+        "next/core-web-vitals",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "plugins": ["simple-import-sort", "import"],
+    "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error",
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": "error"
+    }
 }

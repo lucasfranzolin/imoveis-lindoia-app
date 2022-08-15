@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1,
+h2,
+h3,
+h4,
+p {
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+p.bold {
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 2.8rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+p.small {
+    font-size: 0.85rem;
+}
+
+:root {
+    font-size: 1rem;
+    --color-accent-disabled: #f5bfbf;
+    --color-accent-glow: rgba(253, 77, 77, 0.3);
+    --color-accent-hover: #fd6868;
+    --color-accent: #fd4d4d;
+    --color-primary-100-translucent: rgba(222, 227, 234, 0.15);
+    --color-primary-100: #f3f4f6;
+    --color-primary-200: #e5e7eb;
+    --color-primary-300: #d1d5db;
+    --color-primary-400: #9ca3af;
+    --color-primary-50: #f9fafb;
+    --color-primary-500: #6b7280;
+    --color-primary-600: #4b5563;
+    --color-primary-700: #374151;
+    --color-primary-800: #1f2937;
+    --color-primary-900: #111827;
+    --color-secondary-washed-out: #879eed;
+    --color-secondary: #5575e7;
+    --screen-height-reduction: 0px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.4rem;
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+p.small {
+    font-size: 0.85rem;
+}
+
+html,
+body,
+#__next {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+}
+
+#nprogress {
+    position: relative;
+    z-index: 9999999;
+}
+
+#nprogress .spinner-icon {
+    display: none;
+}
+
+#nprogress .bar {
+    background: var(--color-accent-hover) !important;
+}
+
+#nprogress .peg {
+    box-shadow: 0 0 10px var(--color-accent-hover),
+        0 0 5px var(--color-accent-hover) !important;
+}
+
+button:focus {
+    outline: none;
+}
+
+select:focus {
+    outline: none;
+}
