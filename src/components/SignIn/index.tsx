@@ -1,12 +1,12 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
-import { Button } from '../../ui/Button';
-import { FormErrorMessage } from '../../ui/FormErrorMessage';
-import { FormGroup } from '../../ui/FormGroup';
-import { FormInput } from '../../ui/FormInput';
-import { FormLabel } from '../../ui/FormLabel';
 import { Logo } from '../../ui/Logo';
+import { Button } from '../../ui/system/Button';
+import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
+import { FormGroup } from '../../ui/system/FormGroup';
+import { FormInput } from '../../ui/system/FormInput';
+import { FormLabel } from '../../ui/system/FormLabel';
 import { FormValues, initialValues, validationSchema } from './form';
 
 interface IProps {
