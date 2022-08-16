@@ -1,16 +1,13 @@
 import * as Yup from 'yup';
 
-export type FormValues = {
-    email: string;
-    password: string;
-};
+import { SignInParams } from '../../types/auth';
 
-export const initialValues: FormValues = {
+export const initialValues: SignInParams = {
     email: '',
     password: '',
 };
 
-export const validationSchema: Yup.SchemaOf<FormValues> = Yup.object().shape({
+export const validationSchema: Yup.SchemaOf<SignInParams> = Yup.object().shape({
     email: Yup.string()
         .email('Email inválido')
         .required('Email é obrigatório.'),

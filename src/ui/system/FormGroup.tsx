@@ -8,7 +8,12 @@ interface IProps {
 
 const FormGroup = ({ children, required = false, error = false }: IProps) => {
     const childrenWithProps = Children.map(children, (child) =>
-        isValidElement(child) ? cloneElement(child, { required, error }) : child
+        isValidElement(child)
+            ? cloneElement(child, {
+                  required,
+                  error,
+              })
+            : child
     );
     return <div className="flex flex-col space-y-1">{childrenWithProps}</div>;
 };

@@ -1,36 +1,41 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
+import { useAuth } from '../../hooks/useAuth';
+import { SignInParams } from '../../types/auth';
 import { Logo } from '../../ui/Logo';
 import { Button } from '../../ui/system/Button';
 import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
 import { FormGroup } from '../../ui/system/FormGroup';
 import { FormInput } from '../../ui/system/FormInput';
 import { FormLabel } from '../../ui/system/FormLabel';
-import { FormValues, initialValues, validationSchema } from './form';
+import { initialValues, validationSchema } from './form';
 
-interface IProps {
-    values?: FormValues;
-}
-
-const SignIn = ({ values = initialValues }: IProps) => {
+const SignIn = () => {
     const router = useRouter();
+    const { signIn } = useAuth();
 
     const handleClick = () => router.push('/criar-conta');
 
-    const handleSubmit = (
-        values: FormValues,
-        actions: FormikHelpers<FormValues>
+    const handleSubmit = async (
+        values: SignInParams,
+        actions: FormikHelpers<SignInParams>
     ) => {
-        console.log(values);
-        actions.setSubmitting(false);
+        try {
+            await signIn(values);
+            router.push('/');
+            actions.setSubmitting(false);
+        } catch (err) {
+            console.error(err);
+            actions.setSubmitting(false);
+        }
     };
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-full p-8">
             <Logo size="4xl" />
             <Formik
-                initialValues={values}
+                initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >

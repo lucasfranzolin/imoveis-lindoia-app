@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { useEffectOnce } from '../hooks/useEffectOnce';
 import { store } from '../store';
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
     useEffectOnce(() => {
         const handleRouteStart = () => NProgress.start();
         const handleRouteDone = () => NProgress.done();
@@ -30,6 +30,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
         </Provider>
     );
-}
+};
 
 export default MyApp;

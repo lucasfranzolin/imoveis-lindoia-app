@@ -3,12 +3,12 @@ import { forwardRef } from 'react';
 export interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
     textarea?: boolean;
     rows?: number;
-    error?: string;
+    error?: boolean;
     transparent?: boolean;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, InputProps>(
-    ({ className, textarea, error, transparent, ...props }, ref) => {
+    ({ className, textarea, error = false, transparent, ...props }, ref) => {
         const bg = transparent ? 'bg-transparent' : 'bg-gray-input-bg';
         const ring = error ? 'ring ring-error' : 'ring-gray-title-active';
         const cn = `w-full py-3 px-4 rounded-xl text-black placeholder-gray-placeholder focus:outline-none focus:ring ${bg} ${ring} ${className} `;

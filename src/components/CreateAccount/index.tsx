@@ -1,36 +1,42 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
+import { useAuth } from '../../hooks/useAuth';
+import { SignUpParams } from '../../types/auth';
 import { Logo } from '../../ui/Logo';
 import { Button } from '../../ui/system/Button';
 import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
 import { FormGroup } from '../../ui/system/FormGroup';
 import { FormInput } from '../../ui/system/FormInput';
 import { FormLabel } from '../../ui/system/FormLabel';
-import { FormValues, initialValues, validationSchema } from './form';
+import { initialValues, validationSchema } from './form';
 
-interface IProps {
-    values?: FormValues;
-}
-
-const CreateAccount = ({ values = initialValues }: IProps) => {
+const CreateAccount = () => {
     const router = useRouter();
+    const { signUp } = useAuth();
 
     const handleClick = () => router.push('/entrar');
 
-    const handleSubmit = (
-        values: FormValues,
-        actions: FormikHelpers<FormValues>
+    const handleSubmit = async (
+        values: SignUpParams,
+        actions: FormikHelpers<SignUpParams>
     ) => {
-        console.log(values);
-        actions.setSubmitting(false);
+        try {
+            await signUp(values);
+            console.log(`Email de confirmacao enviado para ${values.email}`);
+            actions.setSubmitting(false);
+            router.push('/entrar');
+        } catch (err) {
+            console.error(err);
+            actions.setSubmitting(false);
+        }
     };
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-full p-8">
             <Logo size="4xl" />
             <Formik
-                initialValues={values}
+                initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >

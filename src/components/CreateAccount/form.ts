@@ -1,18 +1,14 @@
 import * as Yup from 'yup';
 
-export type FormValues = {
-    fullName: string;
-    email: string;
-    password: string;
-};
+import { SignUpParams } from '../../types/auth';
 
-export const initialValues: FormValues = {
+export const initialValues: SignUpParams = {
     fullName: '',
     email: '',
     password: '',
 };
 
-export const validationSchema: Yup.SchemaOf<FormValues> = Yup.object().shape({
+export const validationSchema: Yup.SchemaOf<SignUpParams> = Yup.object().shape({
     fullName: Yup.string()
         .min(3, 'Nome deve conter 3 letras no mínimo.')
         .required('Campo obrigatório.'),

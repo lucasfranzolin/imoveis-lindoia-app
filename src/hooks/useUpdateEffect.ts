@@ -1,9 +1,9 @@
 import { EffectCallback, useEffect, useRef } from 'react';
 
-export function useUpdateEffect(
+export const useUpdateEffect = (
     effect: EffectCallback,
     dependencyArray: Array<any>
-) {
+) => {
     const isInitialMount = useRef(true);
 
     useEffect(() => {
@@ -14,4 +14,4 @@ export function useUpdateEffect(
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencyArray);
-}
+};
