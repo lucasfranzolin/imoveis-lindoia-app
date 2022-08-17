@@ -2,6 +2,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
 import { useAuth } from '../../hooks/useAuth';
+import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 import { SignInParams } from '../../types/auth';
 import { Logo } from '../../ui/Logo';
 import { Button } from '../../ui/system/Button';
@@ -13,22 +14,22 @@ import { initialValues, validationSchema } from './form';
 
 const SignIn = () => {
     const router = useRouter();
-    const { signIn } = useAuth();
+    const {
+        signIn: [{ success }, fetchSignIn],
+    } = useAuth();
+
+    useUpdateEffect(() => {
+        success && router.push('/');
+    }, [success, router]);
 
     const handleClick = () => router.push('/criar-conta');
 
-    const handleSubmit = async (
+    const handleSubmit = (
         values: SignInParams,
         actions: FormikHelpers<SignInParams>
     ) => {
-        try {
-            await signIn(values);
-            router.push('/');
-            actions.setSubmitting(false);
-        } catch (err) {
-            console.error(err);
-            actions.setSubmitting(false);
-        }
+        fetchSignIn(values);
+        actions.setSubmitting(false);
     };
 
     return (

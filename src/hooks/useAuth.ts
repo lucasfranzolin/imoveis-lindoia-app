@@ -1,37 +1,43 @@
 import { useCallback } from 'react';
 
 import { reset, set } from '../store/slices/user';
-import { SignInParams, SignUpParams } from '../types/auth';
+import { SignInParams, SignInResult, SignUpParams } from '../types/auth';
+import { FetchResponse } from '../types/http';
 import { httpClient } from '../utils/httpClient';
 import { useAppDispatch } from './useAppDispatch';
+import { useHttp } from './useHttp';
+import { useUpdateEffect } from './useUpdateEffect';
 
 export const useAuth = (): {
-    signIn: (params: SignInParams) => Promise<void>;
+    signIn: [
+        FetchResponse<SignInResult | null>,
+        (params: SignInParams) => void
+    ];
     signOut: () => Promise<void>;
-    signUp: (params: SignUpParams) => Promise<void>;
+    signUp: [FetchResponse<null>, (params: SignUpParams) => Promise<void>];
 } => {
     const dispatch = useAppDispatch();
+    const [signUpResponse, signUp] = useHttp<null>('/api/auth/sign-up');
+    const [signInResponse, signIn] = useHttp<SignInResult>('/api/auth/sign-in');
 
-    const signIn = useCallback(
-        async (params: SignInParams) => {
-            const { data } = await httpClient.post('/api/auth/sign-in', params);
-            dispatch(set(data.user));
-        },
-        [dispatch]
-    );
+    useUpdateEffect(() => {
+        signInResponse.success &&
+            signInResponse.data &&
+            dispatch(set(signInResponse.data.user));
+    }, [signInResponse.success, signInResponse.data]);
+
+    const fetchSignUp = async (params: SignUpParams) => signUp('post', params);
+
+    const fetchSignIn = (params: SignInParams) => signIn('post', params);
 
     const signOut = useCallback(async () => {
         await httpClient.post('/api/auth/sign-out', { refreshToken: '' });
         dispatch(reset());
     }, [dispatch]);
 
-    const signUp = async (params: SignUpParams) => {
-        await httpClient.post('/api/auth/sign-up', params);
-    };
-
     return {
-        signIn,
+        signIn: [signInResponse, fetchSignIn],
         signOut,
-        signUp,
+        signUp: [signUpResponse, fetchSignUp],
     };
 };

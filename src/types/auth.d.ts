@@ -12,7 +12,12 @@ export type AuthData = {
     refreshToken: string;
 };
 
-export type User = {
+export type UserData = {
     email: string;
     fullName: string;
+};
+
+export type SignInResult = {
+    auth: AuthData;
+    user: UserData;
 };

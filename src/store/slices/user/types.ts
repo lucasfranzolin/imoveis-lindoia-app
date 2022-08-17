@@ -1,6 +1,6 @@
-import { User } from '../../../types/auth';
+import { UserData } from '../../../types/auth';
 
 export type UserState = {
-    value: User | null;
+    value: UserData | null;
     isAuthenticated: boolean;
 };

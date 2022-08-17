@@ -1,25 +1,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AxiosError, AxiosRequestConfig, Method } from 'axios';
+import { AxiosError } from 'axios';
 import httpStatus from 'http-status';
 import { useCallback, useEffect, useState } from 'react';
 
 import { userSel } from '../store/slices/user';
+import {
+    FetchMethod,
+    FetchResponse,
+    Method,
+    Options,
+    Params,
+} from '../types/http';
 import { httpClient } from '../utils/httpClient';
 import { useAppSelector } from './useAppSelector';
 import { useIsMounted } from './useIsMounted';
 import { useRefreshToken } from './useRefreshToken';
-
-export type FetchResponse<T> = {
-    data: T | null;
-    error: string | null;
-    loading: boolean;
-    success: boolean;
-};
-
-export type FetchMethod = (
-    method: Method,
-    options?: Omit<AxiosRequestConfig, 'method'>
-) => Promise<void>;
 
 const initialState = {
     data: null,
@@ -72,19 +67,11 @@ export const useHttp = <T>(
     }, [isAuthenticated, refresh]);
 
     const fetch = useCallback(
-        async (
-            method: Method,
-            config?: Omit<AxiosRequestConfig<any>, 'method' | 'url'>
-        ) => {
-            const _config = config ?? {};
+        async (method: Method, params: Params = {}, options?: Options) => {
             try {
                 setState({ ...initialState });
 
-                const { data } = await httpClient({
-                    method,
-                    url,
-                    ..._config,
-                });
+                const { data } = await httpClient[method](url, params, options);
 
                 isMounted() &&
                     setState({

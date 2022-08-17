@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { User } from '../../../types/auth';
+import { UserData } from '../../../types/auth';
 import { RootState } from '../..';
 import { UserState } from './types';
 
@@ -13,7 +13,7 @@ const sessionSlice = createSlice({
     name: 'session',
     initialState,
     reducers: {
-        set: (state, action: PayloadAction<User>) => {
+        set: (state, action: PayloadAction<UserData>) => {
             state.value = action.payload;
             state.isAuthenticated = true;
         },

@@ -2,6 +2,7 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
 import { useAuth } from '../../hooks/useAuth';
+import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 import { SignUpParams } from '../../types/auth';
 import { Logo } from '../../ui/Logo';
 import { Button } from '../../ui/system/Button';
@@ -13,23 +14,22 @@ import { initialValues, validationSchema } from './form';
 
 const CreateAccount = () => {
     const router = useRouter();
-    const { signUp } = useAuth();
+    const {
+        signUp: [{ success }, fetchSignUp],
+    } = useAuth();
+
+    useUpdateEffect(() => {
+        success && router.push('/entrar');
+    }, [success, router]);
 
     const handleClick = () => router.push('/entrar');
 
-    const handleSubmit = async (
+    const handleSubmit = (
         values: SignUpParams,
         actions: FormikHelpers<SignUpParams>
     ) => {
-        try {
-            await signUp(values);
-            console.log(`Email de confirmacao enviado para ${values.email}`);
-            actions.setSubmitting(false);
-            router.push('/entrar');
-        } catch (err) {
-            console.error(err);
-            actions.setSubmitting(false);
-        }
+        fetchSignUp(values);
+        actions.setSubmitting(false);
     };
 
     return (
