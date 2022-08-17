@@ -19,8 +19,9 @@ const Home = () => {
     };
 
     return (
-        <div>
-            <pre>{JSON.stringify(user)}</pre>
+        <div className="p-12">
+            <pre>{JSON.stringify(user, null, 4)}</pre>
+            <br />
             <Button onClick={handleClick}>
                 {user.isAuthenticated ? 'Sair' : 'Entrar'}
             </Button>

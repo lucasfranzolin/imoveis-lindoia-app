@@ -1,13 +1,17 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-  name: string
+import { proxy } from '../../server/proxy';
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+    return new Promise((resolve, reject) => {
+        req.url = req.url?.replace(/^\/api/, '');
+        proxy.once('error', reject);
+        proxy.web(req, res);
+    });
 }
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
-}
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};

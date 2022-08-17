@@ -1,22 +1,18 @@
-import { axiosPublic } from '../http/axios';
-import { useAuth } from './useAuth';
+import { httpClient } from '../utils/httpClient';
 
 export const useRefreshToken = (): (() => Promise<string>) => {
-    const { setAccessToken, refreshToken } = useAuth();
-
     const refresh = async (): Promise<string> => {
         const {
             data: { accessToken },
-        } = await axiosPublic.post(
-            '/auth/refresh',
+        } = await httpClient.post(
+            '/api/auth/refresh',
             {
-                refreshToken,
+                refreshToken: '',
             },
             {
                 withCredentials: true,
             }
         );
-        setAccessToken(accessToken);
         return accessToken;
     };
 
