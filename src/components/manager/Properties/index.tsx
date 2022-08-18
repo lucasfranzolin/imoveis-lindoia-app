@@ -1,5 +1,5 @@
 const Properties = () => {
-    return <div>hello</div>;
+    return <div>Properties</div>;
 };
 
 export { Properties };

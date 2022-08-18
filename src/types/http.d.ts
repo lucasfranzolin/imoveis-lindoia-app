@@ -13,6 +13,6 @@ export type Options = Omit<AxiosRequestConfig, 'method' | 'url'>;
 
 export type FetchMethod = (
     method: Method,
-    params: Params,
+    params?: Params,
     options?: Options
 ) => Promise<void>;

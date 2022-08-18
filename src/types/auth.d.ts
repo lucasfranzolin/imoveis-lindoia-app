@@ -14,7 +14,6 @@ export type AuthData = {
 
 export type UserData = {
     email: string;
-    fullName: string;
 };
 
 export type SignInResult = {

@@ -1,98 +1,56 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AxiosError } from 'axios';
+import { AxiosInstance } from 'axios';
 import httpStatus from 'http-status';
-import { useCallback, useEffect, useState } from 'react';
+import nookies from 'nookies';
+import { useEffect } from 'react';
 
-import { userSel } from '../store/slices/user';
-import {
-    FetchMethod,
-    FetchResponse,
-    Method,
-    Options,
-    Params,
-} from '../types/http';
 import { httpClient } from '../utils/httpClient';
-import { useAppSelector } from './useAppSelector';
-import { useIsMounted } from './useIsMounted';
 import { useRefreshToken } from './useRefreshToken';
 
-const initialState = {
-    data: null,
-    error: null,
-    loading: false,
-    success: false,
-};
-
-export const useHttp = <T>(
-    url: string
-): [FetchResponse<T | null>, FetchMethod] => {
-    const isMounted = useIsMounted();
-    const { isAuthenticated } = useAppSelector(userSel);
-    const refresh = useRefreshToken();
-
-    const [state, setState] = useState<FetchResponse<T>>({ ...initialState });
+export const useHttp = (isPublic = false): AxiosInstance => {
+    const { refresh } = useRefreshToken();
 
     useEffect(() => {
-        const requestIntercept = httpClient.interceptors.request.use(
-            (config) => {
-                if (!config?.headers?.authorization && isAuthenticated) {
-                    config!.headers!.authorization = `Bearer ${'accessToken'}`;
+        if (!isPublic) {
+            const requestIntercept = httpClient.interceptors.request.use(
+                (config) => {
+                    if (!config?.headers?.authorization) {
+                        const { accessToken } = nookies.get();
+                        config!.headers!.authorization = `Bearer ${accessToken}`;
+                    }
+                    return config;
+                },
+                (error) => Promise.reject(error)
+            );
+
+            const responseIntercept = httpClient.interceptors.response.use(
+                (response) => response,
+                async (error) => {
+                    const prevRequest = error?.config;
+                    if (
+                        error?.response?.status === httpStatus.UNAUTHORIZED &&
+                        !prevRequest?.sent
+                    ) {
+                        prevRequest.sent = true;
+                        try {
+                            const newAccessToken = await refresh();
+                            prevRequest.headers.authorization = `Bearer ${newAccessToken}`;
+                        } catch (err) {
+                            console.error(err);
+                            return Promise.reject(error);
+                        }
+                        return httpClient(prevRequest);
+                    }
+                    return Promise.reject(error);
                 }
-                return config;
-            },
-            (error) => Promise.reject(error)
-        );
+            );
 
-        const responseIntercept = httpClient.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                const prevRequest = error?.config;
-                if (
-                    error?.response?.status === httpStatus.UNAUTHORIZED &&
-                    !prevRequest?.sent
-                ) {
-                    prevRequest.sent = true;
-                    const newAccessToken = await refresh();
-                    prevRequest.headers.authorization = `Bearer ${newAccessToken}`;
-                    return httpClient(prevRequest);
-                }
-                return Promise.reject(error);
-            }
-        );
+            return () => {
+                httpClient.interceptors.request.eject(requestIntercept);
+                httpClient.interceptors.response.eject(responseIntercept);
+            };
+        }
+    }, [isPublic, refresh]);
 
-        return () => {
-            httpClient.interceptors.request.eject(requestIntercept);
-            httpClient.interceptors.response.eject(responseIntercept);
-        };
-    }, [isAuthenticated, refresh]);
-
-    const fetch = useCallback(
-        async (method: Method, params: Params = {}, options?: Options) => {
-            try {
-                setState({ ...initialState });
-
-                const { data } = await httpClient[method](url, params, options);
-
-                isMounted() &&
-                    setState({
-                        data,
-                        error: null,
-                        loading: false,
-                        success: true,
-                    });
-            } catch (error) {
-                isMounted() &&
-                    setState({
-                        data: null,
-                        error: (error as AxiosError<any>).response?.data
-                            .message,
-                        loading: false,
-                        success: true,
-                    });
-            }
-        },
-        [isMounted, url]
-    );
-
-    return [state, fetch];
+    return httpClient;
 };

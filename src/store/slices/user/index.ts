@@ -5,7 +5,7 @@ import { RootState } from '../..';
 import { UserState } from './types';
 
 const initialState: UserState = {
-    value: null,
+    email: null,
     isAuthenticated: false,
 };
 
@@ -14,7 +14,7 @@ const sessionSlice = createSlice({
     initialState,
     reducers: {
         set: (state, action: PayloadAction<UserData>) => {
-            state.value = action.payload;
+            state.email = action.payload.email;
             state.isAuthenticated = true;
         },
         reset: () => initialState,

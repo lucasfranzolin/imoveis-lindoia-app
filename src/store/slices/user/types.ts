@@ -1,6 +1,4 @@
-import { UserData } from '../../../types/auth';
-
 export type UserState = {
-    value: UserData | null;
+    email: string | null;
     isAuthenticated: boolean;
 };

@@ -2,21 +2,23 @@ import { useRouter } from 'next/router';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAuth } from '../../hooks/useAuth';
+import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 import { userSel } from '../../store/slices/user';
 import { Button } from '../../ui/system/Button';
 
 const Home = () => {
     const user = useAppSelector(userSel);
-    const { signOut } = useAuth();
+    const {
+        signOut: [{ success }, fetchSignOut],
+    } = useAuth();
     const router = useRouter();
 
-    const handleClick = async () => {
-        if (!user.isAuthenticated) {
-            router.push('/entrar');
-            return;
-        }
-        await signOut();
-    };
+    useUpdateEffect(() => {
+        success && router.push('/entrar');
+    }, [success, router]);
+
+    const handleClick = async () =>
+        !user.isAuthenticated ? router.push('/entrar') : fetchSignOut();
 
     return (
         <div className="p-12">

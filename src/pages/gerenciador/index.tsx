@@ -1,4 +1,4 @@
-import { Customers } from '../../components/manager/Customers';
+import { ManagerHome } from '../../components/manager/ManagerHome';
 
 export async function getStaticProps() {
     return {
@@ -8,4 +8,4 @@ export async function getStaticProps() {
     };
 }
 
-export default Customers;
+export default ManagerHome;
