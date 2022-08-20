@@ -1,30 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const {
-    PHASE_DEVELOPMENT_SERVER,
-    PHASE_PRODUCTION_BUILD,
-} = require('next/constants');
+module.exports = () => {
+    const serviceUrl = process.env
+        ? 'http://localhost:4001'
+        : 'https://70hlodrz9c.execute-api.us-east-1.amazonaws.com/stg';
 
-module.exports = (phase) => {
-    const isDev = phase === PHASE_DEVELOPMENT_SERVER;
-    const isProd =
-        phase === PHASE_PRODUCTION_BUILD && process.env.STAGING !== '1';
-
-    console.log(`phase: ${isDev ? 'dev' : isProd ? 'prod' : 'stg'}`);
-
-    const { serviceUrl } = (() => {
-        if (isDev)
-            return {
-                serviceUrl: 'http://localhost:4001',
-            };
-        if (isProd)
-            return {
-                serviceUrl: '',
-            };
-        return {
-            serviceUrl:
-                'https://70hlodrz9c.execute-api.us-east-1.amazonaws.com/stg',
-        };
-    })();
+    console.log('>>>>>>>> serviceUrl =', serviceUrl);
 
     /**
      * @type {import('next').NextConfig}
