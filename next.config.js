@@ -1,7 +1,8 @@
 module.exports = () => {
-    const serviceUrl = process.env
-        ? 'http://localhost:4001'
-        : 'https://70hlodrz9c.execute-api.us-east-1.amazonaws.com/stg';
+    const serviceUrl =
+        process.env.NODE_ENV === 'development'
+            ? 'http://localhost:4001'
+            : 'https://70hlodrz9c.execute-api.us-east-1.amazonaws.com';
 
     console.log('>>>>>>>> serviceUrl =', serviceUrl);
 
