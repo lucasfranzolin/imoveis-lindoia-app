@@ -29,7 +29,7 @@ export const useFetch = <T>(
                         ? url
                         : url.replace(
                               '/api', //
-                              `/api/${process.env.STAGE}`
+                              `/api/${process.env.NEXT_PUBLIC_STAGE}`
                           );
 
                 const { data } = await http[method](
