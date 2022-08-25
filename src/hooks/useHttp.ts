@@ -26,20 +26,19 @@ export const useHttp = (isPublic = false): AxiosInstance => {
             const responseIntercept = httpClient.interceptors.response.use(
                 (response) => response,
                 async (error) => {
-                    const prevRequest = error?.config;
                     if (
-                        error?.response?.status === httpStatus.UNAUTHORIZED &&
-                        !prevRequest?.sent
+                        error.response.status === httpStatus.UNAUTHORIZED &&
+                        !error.config.sent
                     ) {
-                        prevRequest.sent = true;
+                        error.config.sent = true;
                         try {
                             const newAccessToken = await refresh();
-                            prevRequest.headers.authorization = `Bearer ${newAccessToken}`;
+                            error.config.headers.authorization = `Bearer ${newAccessToken}`;
                         } catch (err) {
                             console.error(err);
                             return Promise.reject(error);
                         }
-                        return httpClient(prevRequest);
+                        return httpClient(error.config);
                     }
                     return Promise.reject(error);
                 }
