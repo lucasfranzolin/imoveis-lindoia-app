@@ -1,45 +1,23 @@
-import { useRouter } from 'next/router';
-
 import { LoadingFallback } from '../components/shared/LoadingFallback';
 import { useAppSession } from '../hooks/useAppSession';
-import { useEffectOnce } from '../hooks/useEffectOnce';
-import { useUpdateEffect } from '../hooks/useUpdateEffect';
 
-type WrappedComponentProps = {
+type WithAuthProps = {
+    redirectTo: string;
+};
+
+type WrappedComponentProps = WithAuthProps & {
     [key: string]: any;
 };
 
 export const withAuth = (Component: any) => {
-    const WrappedComponent = ({ ...props }: WrappedComponentProps) => {
-        const router = useRouter();
-        const [
-            {
-                error, //
-                isAuthenticated,
-                isFinished,
-                isLoading,
-            },
-            loadSession,
-        ] = useAppSession();
+    const WrappedComponent = ({
+        redirectTo = '/',
+        ...props
+    }: WrappedComponentProps) => {
+        const { isLoading } = useAppSession(redirectTo);
 
-        const redirect = () => {
-            router.push('/entrar');
-        };
-
-        useEffectOnce(() => {
-            isFinished && !isAuthenticated
-                ? redirect()
-                : !isFinished && !isAuthenticated && loadSession();
-        });
-
-        useUpdateEffect(() => {
-            error && redirect();
-        }, [error]);
-
-        if (isLoading || !isAuthenticated)
-            return (
-                <LoadingFallback>Verificando credenciais...</LoadingFallback>
-            );
+        // if (isLoading)
+        return <LoadingFallback>Verificando credenciais...</LoadingFallback>;
 
         return <Component {...props} />;
     };

@@ -25,9 +25,9 @@ export const useAuth = (): {
 
     useUpdateEffect(() => {
         if (signInResponse.success && signInResponse.data) {
-            const { auth } = signInResponse.data;
-            nookies.set(undefined, 'accessToken', auth.accessToken);
-            nookies.set(undefined, 'refreshToken', auth.refreshToken);
+            const { accessToken, refreshToken } = signInResponse.data;
+            nookies.set(undefined, 'accessToken', accessToken);
+            nookies.set(undefined, 'refreshToken', refreshToken);
         }
     }, [signInResponse.success, signInResponse.data]);
 

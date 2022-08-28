@@ -7,8 +7,8 @@ import { SessionState } from './types';
 
 export const fetchSession = createAsyncThunk(
     'session/fetchSession',
-    async (client: AxiosInstance) => {
-        const { data } = await client.get<SessionData>('/api/auth/session');
+    async (http: AxiosInstance) => {
+        const { data } = await http.get<SessionData>('/api/auth/session');
         return data;
     }
 );
