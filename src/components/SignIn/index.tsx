@@ -1,12 +1,8 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
-import { useAppSelector } from '../../hooks/useAppSelector';
 import { useAuth } from '../../hooks/useAuth';
-import { useEffectOnce } from '../../hooks/useEffectOnce';
-import { useSession } from '../../hooks/useSession';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
-import { userSel } from '../../store/slices/user';
 import { SignInParams } from '../../types/auth';
 import { Logo } from '../../ui/Logo';
 import { Button } from '../../ui/system/Button';
@@ -14,28 +10,17 @@ import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
 import { FormGroup } from '../../ui/system/FormGroup';
 import { FormInput } from '../../ui/system/FormInput';
 import { FormLabel } from '../../ui/system/FormLabel';
-import { LoadingFallback } from '../shared/LoadingFallback';
 import { initialValues, validationSchema } from './form';
 
-interface IProps {
-    redirectTo?: string;
-}
-
-const SignIn = ({ redirectTo = '/' }: IProps) => {
+const SignIn = () => {
     const router = useRouter();
-    const { isAuthenticated } = useAppSelector(userSel);
     const {
-        signIn: [{}, fetchSignIn],
+        signIn: [{ success }, fetchSignIn],
     } = useAuth();
-    const [{ loading }, getSession] = useSession();
-
-    useEffectOnce(() => {
-        isAuthenticated ? router.push(redirectTo) : getSession();
-    });
 
     useUpdateEffect(() => {
-        isAuthenticated && router.push(redirectTo);
-    }, [isAuthenticated]);
+        success && router.push('/');
+    }, [success, router]);
 
     const handleClick = () => router.push('/criar-conta');
 
@@ -46,9 +31,6 @@ const SignIn = ({ redirectTo = '/' }: IProps) => {
         fetchSignIn(values);
         actions.setSubmitting(false);
     };
-
-    if (loading && !isAuthenticated)
-        return <LoadingFallback>Verificando sessao...</LoadingFallback>;
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-full p-8">

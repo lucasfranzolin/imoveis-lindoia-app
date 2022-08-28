@@ -12,11 +12,11 @@ export type AuthData = {
     refreshToken: string;
 };
 
-export type UserData = {
+export type SessionData = {
     email: string;
 };
 
 export type SignInResult = {
     auth: AuthData;
-    user: UserData;
+    user: SessionData;
 };

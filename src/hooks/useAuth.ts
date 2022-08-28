@@ -1,6 +1,6 @@
 import nookies from 'nookies';
 
-import { reset, set } from '../store/slices/user';
+import { reset } from '../store/slices/session';
 import { SignInParams, SignInResult, SignUpParams } from '../types/auth';
 import { FetchResponse } from '../types/http';
 import { useAppDispatch } from './useAppDispatch';
@@ -25,8 +25,7 @@ export const useAuth = (): {
 
     useUpdateEffect(() => {
         if (signInResponse.success && signInResponse.data) {
-            const { user, auth } = signInResponse.data;
-            dispatch(set(user));
+            const { auth } = signInResponse.data;
             nookies.set(undefined, 'accessToken', auth.accessToken);
             nookies.set(undefined, 'refreshToken', auth.refreshToken);
         }

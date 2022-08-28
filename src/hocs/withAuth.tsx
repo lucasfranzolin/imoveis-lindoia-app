@@ -1,33 +1,34 @@
 import { useRouter } from 'next/router';
-import React from 'react';
 
 import { LoadingFallback } from '../components/shared/LoadingFallback';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { useEffectOnce } from '../hooks/useEffectOnce';
 import { useSession } from '../hooks/useSession';
 import { useUpdateEffect } from '../hooks/useUpdateEffect';
-import { userSel } from '../store/slices/user';
+import { sessionSel } from '../store/slices/session';
 
-type ProtectedRoute = {
-    protected: boolean;
-};
-
-type WrappedComponentProps = ProtectedRoute & {
+type WrappedComponentProps = {
     [key: string]: any;
 };
 
 export const withAuth = (Component: any) => {
-    const WrappedComponent = (props: WrappedComponentProps) => {
+    const WrappedComponent = ({ ...props }: WrappedComponentProps) => {
         const router = useRouter();
-        const { isAuthenticated } = useAppSelector(userSel);
+        const { isAuthenticated, isFinished } = useAppSelector(sessionSel);
         const [{ error, loading }, getSession] = useSession();
 
+        const redirect = () => {
+            router.push('/entrar');
+        };
+
         useEffectOnce(() => {
-            !isAuthenticated && props.protected && getSession();
+            isFinished && !isAuthenticated
+                ? redirect()
+                : !isFinished && !isAuthenticated && getSession();
         });
 
         useUpdateEffect(() => {
-            error && router.push('/entrar');
+            error && redirect();
         }, [error]);
 
         if (loading || !isAuthenticated)

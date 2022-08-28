@@ -1,21 +1,13 @@
-import { set } from '../store/slices/user';
-import { UserData } from '../types/auth';
-import { FetchResponse } from '../types/http';
+import { fetchSession } from '../store/slices/session';
 import { useAppDispatch } from './useAppDispatch';
-import { useFetch } from './useFetch';
-import { useUpdateEffect } from './useUpdateEffect';
+import { useEffectOnce } from './useEffectOnce';
+import { useHttp } from './useHttp';
 
-export const useSession = (): [FetchResponse<UserData>, () => void] => {
+export const useSession = () => {
+    const client = useHttp();
     const dispatch = useAppDispatch();
-    const [response, fetch] = useFetch<UserData>('/api/auth/session');
 
-    useUpdateEffect(() => {
-        response.success && response.data && dispatch(set(response.data));
-    }, [response.success, response.data]);
-
-    const getSession = () => {
-        fetch('get');
-    };
-
-    return [response, getSession];
+    useEffectOnce(() => {
+        dispatch(fetchSession(client));
+    });
 };

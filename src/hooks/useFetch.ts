@@ -31,7 +31,6 @@ export const useFetch = <T>(
                               '/api', //
                               `/api/${process.env.NEXT_PUBLIC_STAGE}`
                           );
-                console.log('urlWithStage', urlWithStage);
                 const { data } = await http[method](
                     urlWithStage,
                     params,
