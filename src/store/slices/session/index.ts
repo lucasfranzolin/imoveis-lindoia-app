@@ -15,8 +15,9 @@ export const fetchSession = createAsyncThunk(
 
 const initialState: SessionState = {
     email: null,
+    error: null,
     isAuthenticated: false,
-    isFinished: true,
+    isFinished: false,
     isLoading: false,
 };
 
@@ -35,14 +36,18 @@ const sessionSlice = createSlice({
             (state, action: PayloadAction<SessionData>) => {
                 state.email = action.payload.email;
                 state.isAuthenticated = true;
-                state.isLoading = false;
                 state.isFinished = true;
+                state.isLoading = false;
             }
         );
-        builder.addCase(fetchSession.rejected, (state) => {
-            state.isLoading = false;
-            state.isFinished = true;
-        });
+        builder.addCase(
+            fetchSession.rejected,
+            (state, action: PayloadAction<any>) => {
+                state.error = action.payload.response?.data.message;
+                state.isFinished = true;
+                state.isLoading = false;
+            }
+        );
     },
 });
 

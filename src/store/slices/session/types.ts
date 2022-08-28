@@ -3,4 +3,5 @@ export type SessionState = {
     isAuthenticated: boolean;
     isFinished: boolean;
     isLoading: boolean;
+    error: string | null;
 };

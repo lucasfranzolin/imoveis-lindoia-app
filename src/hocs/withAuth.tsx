@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 
 import { LoadingFallback } from '../components/shared/LoadingFallback';
-import { useAppSelector } from '../hooks/useAppSelector';
+import { useAppSession } from '../hooks/useAppSession';
 import { useEffectOnce } from '../hooks/useEffectOnce';
-import { useSession } from '../hooks/useSession';
 import { useUpdateEffect } from '../hooks/useUpdateEffect';
-import { sessionSel } from '../store/slices/session';
 
 type WrappedComponentProps = {
     [key: string]: any;
@@ -14,8 +12,15 @@ type WrappedComponentProps = {
 export const withAuth = (Component: any) => {
     const WrappedComponent = ({ ...props }: WrappedComponentProps) => {
         const router = useRouter();
-        const { isAuthenticated, isFinished } = useAppSelector(sessionSel);
-        const [{ error, loading }, getSession] = useSession();
+        const [
+            {
+                error, //
+                isAuthenticated,
+                isFinished,
+                isLoading,
+            },
+            loadSession,
+        ] = useAppSession();
 
         const redirect = () => {
             router.push('/entrar');
@@ -24,14 +29,14 @@ export const withAuth = (Component: any) => {
         useEffectOnce(() => {
             isFinished && !isAuthenticated
                 ? redirect()
-                : !isFinished && !isAuthenticated && getSession();
+                : !isFinished && !isAuthenticated && loadSession();
         });
 
         useUpdateEffect(() => {
             error && redirect();
         }, [error]);
 
-        if (loading || !isAuthenticated)
+        if (isLoading || !isAuthenticated)
             return (
                 <LoadingFallback>Verificando credenciais...</LoadingFallback>
             );
