@@ -1,4 +1,12 @@
 import { CreateAccount } from '../components/CreateAccount';
-import { withAuth } from '../hocs/withAuth';
+import { AuthLayout } from '../layouts/AuthLayout';
 
-export default withAuth(CreateAccount);
+export const CreateAccountPage = () => {
+    return (
+        <AuthLayout>
+            <CreateAccount />
+        </AuthLayout>
+    );
+};
+
+export default CreateAccountPage;

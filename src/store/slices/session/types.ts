@@ -1,6 +1,6 @@
 export type SessionState = {
     email: string | null;
-    isAuthenticated: boolean;
+    roles: Array<string>;
     isFinished: boolean;
     isLoading: boolean;
     error: string | null;

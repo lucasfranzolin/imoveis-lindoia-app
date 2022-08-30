@@ -1,7 +1,24 @@
-export const Spinner = () => {
+const sizeClassnames = {
+    lg: 'h-[40px]',
+    md: 'h-[32px]',
+    sm: 'h-[24px]',
+    xs: 'h-[16px]',
+};
+
+const colorClassnames = {
+    primary: 'text-primary',
+    white: 'text-white',
+};
+
+export interface IProps {
+    size?: keyof typeof sizeClassnames;
+    color?: keyof typeof colorClassnames;
+}
+
+export const Spinner = ({ size = 'lg', color = 'primary' }: IProps) => {
     return (
         <svg
-            className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary"
+            className={`animate-spin -ml-1 mr-3 ${sizeClassnames[size]} ${colorClassnames[color]}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

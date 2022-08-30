@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import httpStatus from 'http-status';
 import nookies from 'nookies';
-import { useEffect } from 'react';
 
-import { httpClient } from '../utils/httpClient';
-import { useRefreshToken } from './useRefreshToken';
+import { RefreshTokenResult } from '../types/auth';
+import { useEffectOnce } from './useEffectOnce';
 
 export const useHttp = (isPublic = false): AxiosInstance => {
-    const { refresh } = useRefreshToken();
+    const httpClient: AxiosInstance = axios.create({});
 
-    useEffect(() => {
+    useEffectOnce(() => {
         if (!isPublic) {
             const requestIntercept = httpClient.interceptors.request.use(
                 (config) => {
@@ -32,13 +31,28 @@ export const useHttp = (isPublic = false): AxiosInstance => {
                     ) {
                         error.config.sent = true;
                         try {
-                            const newAccessToken = await refresh();
+                            const { refreshToken } = nookies.get();
+                            if (!refreshToken)
+                                return Promise.reject(
+                                    'refreshToken is missing.'
+                                );
+                            const { data } =
+                                await httpClient.post<RefreshTokenResult>(
+                                    '/api/auth/refresh',
+                                    { refreshToken }
+                                );
+                            const newAccessToken = data.accessToken;
+                            nookies.set(
+                                undefined,
+                                'accessToken',
+                                newAccessToken
+                            );
                             error.config.headers.authorization = `Bearer ${newAccessToken}`;
                         } catch (err) {
                             console.error(err);
                             return Promise.reject(error);
                         }
-                        return httpClient(error.config);
+                        return httpClient.request(error.config);
                     }
                     return Promise.reject(error);
                 }
@@ -49,7 +63,7 @@ export const useHttp = (isPublic = false): AxiosInstance => {
                 httpClient.interceptors.response.eject(responseIntercept);
             };
         }
-    }, [isPublic, refresh]);
+    });
 
     return httpClient;
 };

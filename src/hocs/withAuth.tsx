@@ -1,23 +1,31 @@
-import { LoadingFallback } from '../components/shared/LoadingFallback';
+import { useRouter } from 'next/router';
+
 import { useAppSession } from '../hooks/useAppSession';
+import { useUpdateEffect } from '../hooks/useUpdateEffect';
+import { LoadingFallback } from '../ui/LoadingFallback';
 
-type WithAuthProps = {
-    redirectTo: string;
-};
+export interface IAuthProps {
+    isAuthenticated: boolean;
+    user: {
+        email: string | null;
+    };
+}
 
-type WrappedComponentProps = WithAuthProps & {
-    [key: string]: any;
-};
+export const withAuth = (Component: React.ComponentType<any>) => {
+    const WrappedComponent = (props: IAuthProps) => {
+        const router = useRouter();
+        const { isLoading, isFinished, email } = useAppSession();
 
-export const withAuth = (Component: any) => {
-    const WrappedComponent = ({
-        redirectTo = '/',
-        ...props
-    }: WrappedComponentProps) => {
-        const { isLoading } = useAppSession(redirectTo);
+        useUpdateEffect(() => {
+            isFinished && !email && router.push('/entrar');
+        }, [isFinished, email]);
 
-        // if (isLoading)
-        return <LoadingFallback>Verificando credenciais...</LoadingFallback>;
+        if (isFinished && !email) return null;
+
+        if (isLoading && !email && !isFinished)
+            return (
+                <LoadingFallback>Verificando credenciais...</LoadingFallback>
+            );
 
         return <Component {...props} />;
     };

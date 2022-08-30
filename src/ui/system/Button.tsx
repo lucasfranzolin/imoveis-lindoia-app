@@ -6,14 +6,14 @@ const variantClassnames = {
 const sizeClassnames = {
     lg: 'px-6 py-4',
     md: 'px-6 py-3',
-    sm: 'px-2 py-2 text-sm',
-    xs: 'px-1 text-sm',
+    sm: 'px-3 py-1 text-sm',
+    xs: 'px-2 text-sm',
 };
 
 const colorClassnames = {
     primary:
         'text-white bg-primary hover:bg-primary-dark disabled:text-white disabled:bg-primary-light focus:ring-primary-dark',
-    transparent: 'text-gray-body bg-transparent focus:ring-primary',
+    transparent: 'text-body bg-transparent focus:ring-primary',
 };
 
 export type ButtonProps = React.DetailedHTMLProps<

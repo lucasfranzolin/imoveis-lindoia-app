@@ -10,9 +10,10 @@
     "extends": [
         "next/core-web-vitals",
         "plugin:@typescript-eslint/recommended",
-        "prettier"
+        "prettier",
+        "plugin:jsx-a11y/recommended"
     ],
-    "plugins": ["simple-import-sort", "import"],
+    "plugins": ["jsx-a11y", "simple-import-sort", "import"],
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "import/first": "error",

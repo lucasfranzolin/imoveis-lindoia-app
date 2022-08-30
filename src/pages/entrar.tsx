@@ -1,4 +1,12 @@
 import { SignIn } from '../components/SignIn';
-import { withAuth } from '../hocs/withAuth';
+import { AuthLayout } from '../layouts/AuthLayout';
 
-export default withAuth(SignIn);
+export const SignInPage = () => {
+    return (
+        <AuthLayout>
+            <SignIn />
+        </AuthLayout>
+    );
+};
+
+export default SignInPage;

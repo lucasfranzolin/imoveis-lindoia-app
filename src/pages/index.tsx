@@ -1,4 +1,12 @@
 import { Home } from '../components/Home';
-import { withAuth } from '../hocs/withAuth';
+import { MainLayout } from '../layouts/MainLayout';
 
-export default withAuth(Home);
+export const HomePage = () => {
+    return (
+        <MainLayout>
+            <Home />
+        </MainLayout>
+    );
+};
+
+export default HomePage;

@@ -11,7 +11,7 @@ interface IProps {
     size?: keyof typeof sizeClassnames;
 }
 
-const Logo = ({ size = 'lg' }: IProps) => {
+export const Logo = ({ size = 'lg' }: IProps) => {
     return (
         <div className={`uppercase text-center ${sizeClassnames[size]}`}>
             <span className="text-body">imóveis</span>
@@ -19,5 +19,3 @@ const Logo = ({ size = 'lg' }: IProps) => {
         </div>
     );
 };
-
-export { Logo };
