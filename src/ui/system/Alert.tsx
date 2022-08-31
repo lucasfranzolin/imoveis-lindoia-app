@@ -23,8 +23,8 @@ export type AlertProps = {
 export const Alert = ({
     children,
     title,
-    type = 'info',
-    size = 'md',
+    // type = 'info',
+    // size = 'md',
     isInline = false,
     withBg = false,
 }: AlertProps) => {
