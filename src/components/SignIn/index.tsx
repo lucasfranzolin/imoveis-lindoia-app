@@ -1,17 +1,14 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAuth } from '../../hooks/useAuth';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
-import { reset } from '../../store/slices/session';
 import { Button } from '../../stories/Button';
 import { FormField } from '../../stories/FormField';
 import { SignInParams } from '../../types/auth';
 import { initialValues, validationSchema } from './form';
 
 export const SignIn = () => {
-    const dispatch = useAppDispatch();
     const router = useRouter();
     const {
         signIn: [{ success, loading }, fetchSignIn],
@@ -27,7 +24,6 @@ export const SignIn = () => {
         values: SignInParams,
         actions: FormikHelpers<SignInParams>
     ) => {
-        dispatch(reset());
         fetchSignIn(values);
         actions.setSubmitting(false);
     };

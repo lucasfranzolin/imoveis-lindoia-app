@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import { useAppSession } from '../hooks/useAppSession';
 import { useEffectOnce } from '../hooks/useEffectOnce';
-import { useSession } from '../hooks/useSession';
 import { LoadingFallback } from '../stories/LoadingFallback';
 import { Logo } from '../stories/Logo';
 
@@ -12,7 +12,20 @@ interface IProps {
 
 export const AuthLayout = ({ children }: IProps) => {
     const router = useRouter();
-    const { isFinished, isLoading, email, error } = useSession();
+    const [
+        {
+            isFinished, //
+            isLoading,
+            email,
+            error,
+        },
+        ,
+        resetSession,
+    ] = useAppSession();
+
+    useEffectOnce(() => {
+        resetSession();
+    });
 
     useEffect(() => {
         isFinished && email && router.push('/');

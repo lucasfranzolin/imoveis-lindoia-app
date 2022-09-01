@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import { useSession } from '../hooks/useSession';
+import { useAppSession } from '../hooks/useAppSession';
+import { useEffectOnce } from '../hooks/useEffectOnce';
 import { Alert } from '../stories/Alert';
 import { Breadcrumbs } from '../stories/Breadcrumbs';
 import { LoadingFallback } from '../stories/LoadingFallback';
@@ -19,11 +20,25 @@ export const MainLayout = ({
     allowedRoles = [],
 }: IProps) => {
     const router = useRouter();
-    const { isFinished, isLoading, email, roles } = useSession();
+    const [
+        {
+            isFinished, //
+            isLoading,
+            email,
+            roles,
+        },
+        fetchSession,
+    ] = useAppSession();
+
+    useEffectOnce(() => {
+        !isFinished && fetchSession();
+    });
 
     useEffect(() => {
         isProtected && isFinished && !email && router.push('/entrar');
     }, [isProtected, isFinished, email, router]);
+
+    if (isProtected && !isLoading && !email) return null;
 
     if (isProtected && isLoading && !email)
         return <LoadingFallback>Verificando credenciais...</LoadingFallback>;
@@ -43,7 +58,10 @@ export const MainLayout = ({
     return (
         <div id="main-layout" className="w-full max-w-4xl mx-auto">
             <div className="px-4">
-                <Navigation isAuthenticated={!!email} isRealtor />
+                <Navigation
+                    isAuthenticated={!!email}
+                    isAdmin={roles.includes('admin')}
+                />
                 <Breadcrumbs />
                 <main className="mt-4">{children}</main>
             </div>

@@ -8,10 +8,10 @@ import { Logo } from './Logo';
 
 interface IProps {
     isAuthenticated: boolean;
-    isRealtor: boolean;
+    isAdmin: boolean;
 }
 
-export const Navigation = ({ isAuthenticated, isRealtor }: IProps) => {
+export const Navigation = ({ isAuthenticated, isAdmin }: IProps) => {
     const {
         signOut: [{ success, loading }, fetchSignOut],
     } = useAuth();
@@ -53,13 +53,15 @@ export const Navigation = ({ isAuthenticated, isRealtor }: IProps) => {
                 </button>
                 <div className="hidden md:flex" id="navbar-default">
                     <ul className="flex items-center md:flex-row md:space-x-8 md:text-sm md:font-medium">
-                        <li>
-                            <NextLink href="/">site</NextLink>
-                        </li>
-                        {isRealtor && (
-                            <li>
-                                <NextLink href="/admin">admin</NextLink>
-                            </li>
+                        {isAdmin && (
+                            <>
+                                <li>
+                                    <NextLink href="/">site</NextLink>
+                                </li>
+                                <li>
+                                    <NextLink href="/admin">admin</NextLink>
+                                </li>
+                            </>
                         )}
                         <li>
                             <Button

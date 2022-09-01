@@ -6,23 +6,18 @@ import { useAppDispatch } from './useAppDispatch';
 import { useAppSelector } from './useAppSelector';
 import { useHttp } from './useHttp';
 
-export const useSession = (): SessionState & { reset: () => void } => {
+export const useAppSession = (): [SessionState, () => void, () => void] => {
     const http = useHttp();
     const dispatch = useAppDispatch();
-    const { isLoading, isFinished, ...rest } = useAppSelector(sessionSel);
+    const session = useAppSelector(sessionSel);
 
-    useEffect(() => {
-        !isFinished && !isLoading && dispatch(fetchSession(http));
-    });
+    const dispatchFetch = () => {
+        dispatch(fetchSession(http));
+    };
 
     const dispatchReset = () => {
         dispatch(reset());
     };
 
-    return {
-        isLoading,
-        isFinished,
-        ...rest,
-        reset: dispatchReset,
-    };
+    return [session, dispatchFetch, dispatchReset];
 };
