@@ -9,6 +9,7 @@ export type SignUpParams = SignInParams & {
 
 export type SessionData = {
     email: string;
+    roles: Array<string>;
 };
 
 export type SignInResult = {

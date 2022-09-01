@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '../hooks/useAuth';
 import { useUpdateEffect } from '../hooks/useUpdateEffect';
+import { Button } from './Button';
 import { Logo } from './Logo';
-import { Button } from './system/Button';
 
 interface IProps {
     isAuthenticated: boolean;
@@ -13,7 +13,7 @@ interface IProps {
 
 export const Navigation = ({ isAuthenticated, isRealtor }: IProps) => {
     const {
-        signOut: [{ success }, fetchSignOut],
+        signOut: [{ success, loading }, fetchSignOut],
     } = useAuth();
     const router = useRouter();
 
@@ -62,7 +62,11 @@ export const Navigation = ({ isAuthenticated, isRealtor }: IProps) => {
                             </li>
                         )}
                         <li>
-                            <Button size="xs" onClick={handleClickAuth}>
+                            <Button
+                                size="sm"
+                                onClick={handleClickAuth}
+                                loading={loading}
+                            >
                                 {isAuthenticated ? 'sair' : 'entrar'}
                             </Button>
                         </li>

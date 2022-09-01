@@ -1,3 +1,7 @@
+import { memo } from 'react';
+
+import { Spinner } from '../Spinner';
+
 const variantClassnames = {
     default: 'block',
     link: 'inline-block',
@@ -10,7 +14,7 @@ const sizeClassnames = {
     xs: 'px-2 text-sm',
 };
 
-const colorClassnames = {
+export const colorClassnames = {
     primary:
         'text-white bg-primary hover:bg-primary-dark disabled:text-white disabled:bg-primary-light focus:ring-primary-dark',
     transparent: 'text-body bg-transparent focus:ring-primary',
@@ -27,14 +31,14 @@ export type ButtonProps = React.DetailedHTMLProps<
     icon?: React.ReactNode;
 };
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
     children,
     variant = 'default',
     size = 'md',
     color = 'primary',
-    disabled,
-    loading,
-    icon,
+    disabled = false,
+    loading = false,
+    icon = undefined,
     className = '',
     ...props
 }) => {
@@ -48,20 +52,29 @@ export const Button: React.FC<ButtonProps> = ({
             </button>
         );
 
+    const isDisabled = disabled || loading;
+    const cursor = isDisabled ? 'cursor-not-allowed' : 'cursor-pointer';
+
     return (
         <button
-            disabled={disabled || loading}
-            className={`flex items-center justify-center font-bold outline-none transition duration-200 ease-in-out focus:ring-0 rounded-full ${colorClassnames[color]} ${sizeClassnames[size]} ${className}`}
+            disabled={isDisabled}
+            className={`flex items-center justify-center font-bold outline-none transition duration-200 ease-in-out focus:ring-0 rounded-full ${colorClassnames[color]} ${sizeClassnames[size]} ${cursor} ${className}`}
             {...props}
         >
             <span
-                className={
-                    loading ? 'opacity-0' : 'flex items-center space-x-2'
-                }
+                className={`flex items-center space-x-2 ${
+                    isDisabled ? 'opacity-80' : ''
+                }`}
             >
-                {icon && <span className="items-center">{icon}</span>}
+                {loading ? (
+                    <Spinner size={size} color="white" />
+                ) : icon ? (
+                    icon
+                ) : null}
                 {children}
             </span>
         </button>
     );
 };
+
+export default memo(Button);

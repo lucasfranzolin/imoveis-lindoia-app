@@ -35,6 +35,7 @@ const sessionSlice = createSlice({
             fetchSession.fulfilled,
             (state, action: PayloadAction<SessionData>) => {
                 state.email = action.payload.email;
+                state.roles = action.payload.roles;
                 state.isFinished = true;
                 state.isLoading = false;
             }

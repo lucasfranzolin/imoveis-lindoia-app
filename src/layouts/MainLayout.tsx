@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useSession } from '../hooks/useSession';
-import { useUpdateEffect } from '../hooks/useUpdateEffect';
-import { Breadcrumbs } from '../ui/Breadcrumbs';
-import { LoadingFallback } from '../ui/LoadingFallback';
-import { Navigation } from '../ui/Navigation';
-import { Alert } from '../ui/system/Alert';
+import { Alert } from '../stories/Alert';
+import { Breadcrumbs } from '../stories/Breadcrumbs';
+import { LoadingFallback } from '../stories/LoadingFallback';
+import { Navigation } from '../stories/Navigation';
 
 interface IProps {
     children: React.ReactNode | Array<React.ReactNode>;
@@ -22,21 +21,23 @@ export const MainLayout = ({
     const router = useRouter();
     const { isFinished, isLoading, email, roles } = useSession();
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         isProtected && isFinished && !email && router.push('/entrar');
-    }, [isProtected, isFinished, email]);
+    }, [isProtected, isFinished, email, router]);
 
-    if (isProtected && (isLoading || !email))
+    if (isProtected && isLoading && !email)
         return <LoadingFallback>Verificando credenciais...</LoadingFallback>;
 
     const hasRole =
         roles.filter((role) => allowedRoles.indexOf(role) !== -1).length > 0;
 
-    if (!hasRole)
+    if (isProtected && email && !hasRole)
         return (
-            <Alert title="Acesso negado!" withBg>
-                Você não tem permissão para acessar esta página.
-            </Alert>
+            <div className="flex flex-col items-center justify-center w-full h-full p-8">
+                <Alert title="Acesso negado!" type="danger" size="lg">
+                    Você não tem permissão para acessar esta página.
+                </Alert>
+            </div>
         );
 
     return (

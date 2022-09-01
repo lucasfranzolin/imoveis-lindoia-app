@@ -3,7 +3,7 @@ import { MainLayout } from '../../../layouts/MainLayout';
 
 const AdminImoveisPage = () => {
     return (
-        <MainLayout isProtected allowedRoles={['realtor']}>
+        <MainLayout isProtected allowedRoles={['admin']}>
             <Properties />
         </MainLayout>
     );

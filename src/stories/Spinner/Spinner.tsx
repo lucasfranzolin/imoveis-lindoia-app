@@ -1,8 +1,10 @@
+import { memo } from 'react';
+
 const sizeClassnames = {
-    lg: 'h-[40px]',
-    md: 'h-[32px]',
-    sm: 'h-[24px]',
-    xs: 'h-[16px]',
+    lg: 'h-[32px]',
+    md: 'h-[24px]',
+    sm: 'h-[16px]',
+    xs: 'h-[8px]',
 };
 
 const colorClassnames = {
@@ -10,12 +12,12 @@ const colorClassnames = {
     white: 'text-white',
 };
 
-export interface IProps {
+export type SpinnerProps = {
     size?: keyof typeof sizeClassnames;
     color?: keyof typeof colorClassnames;
-}
+};
 
-export const Spinner = ({ size = 'lg', color = 'primary' }: IProps) => {
+const Spinner = ({ size = 'md', color = 'primary' }: SpinnerProps) => {
     return (
         <svg
             className={`animate-spin -ml-1 mr-3 ${sizeClassnames[size]} ${colorClassnames[color]}`}
@@ -39,3 +41,5 @@ export const Spinner = ({ size = 'lg', color = 'primary' }: IProps) => {
         </svg>
     );
 };
+
+export default memo(Spinner);

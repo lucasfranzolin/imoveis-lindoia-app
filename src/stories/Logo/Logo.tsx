@@ -1,17 +1,17 @@
+import { memo } from 'react';
+
 const sizeClassnames = {
     '4xl': 'text-4xl',
     '2xl': 'text-2xl',
     xl: 'text-xl',
     lg: 'text-lg',
-    md: 'text-md',
-    sm: 'text-sm',
 };
 
-interface IProps {
+export type LogoProps = {
     size?: keyof typeof sizeClassnames;
-}
+};
 
-export const Logo = ({ size = 'lg' }: IProps) => {
+const Logo = ({ size = 'lg' }: LogoProps) => {
     return (
         <div className={`uppercase text-center ${sizeClassnames[size]}`}>
             <span className="text-body">imóveis</span>
@@ -19,3 +19,5 @@ export const Logo = ({ size = 'lg' }: IProps) => {
         </div>
     );
 };
+
+export default memo(Logo);

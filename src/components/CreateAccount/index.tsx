@@ -3,18 +3,15 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '../../hooks/useAuth';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
+import { Button } from '../../stories/Button';
+import { FormField } from '../../stories/FormField';
 import { SignUpParams } from '../../types/auth';
-import { Button } from '../../ui/system/Button';
-import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
-import { FormGroup } from '../../ui/system/FormGroup';
-import { FormInput } from '../../ui/system/FormInput';
-import { FormLabel } from '../../ui/system/FormLabel';
 import { initialValues, validationSchema } from './form';
 
 export const CreateAccount = () => {
     const router = useRouter();
     const {
-        signUp: [{ success }, fetchSignUp],
+        signUp: [{ success, loading }, fetchSignUp],
     } = useAuth();
 
     useUpdateEffect(() => {
@@ -42,15 +39,17 @@ export const CreateAccount = () => {
                     onSubmit={formik.handleSubmit}
                     className="flex flex-col w-full space-y-4 mt-8 max-w-[400px]"
                 >
-                    <FormGroup
-                        required
+                    <FormField
+                        id="fullName"
+                        label="Nome completo"
                         error={
                             !!formik.errors.fullName &&
                             !!formik.touched.fullName
                         }
+                        errorMsg={formik.errors.fullName}
+                        required
                     >
-                        <FormLabel htmlFor="fullName">Nome completo</FormLabel>
-                        <FormInput
+                        <input
                             type="text"
                             id="fullName"
                             name="fullName"
@@ -58,16 +57,15 @@ export const CreateAccount = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.fullName}
                         />
-                        <FormErrorMessage>
-                            {formik.errors.fullName}
-                        </FormErrorMessage>
-                    </FormGroup>
-                    <FormGroup
-                        required
+                    </FormField>
+                    <FormField
+                        id="email"
+                        label="Email"
                         error={!!formik.errors.email && !!formik.touched.email}
+                        errorMsg={formik.errors.email}
+                        required
                     >
-                        <FormLabel htmlFor="email">Email</FormLabel>
-                        <FormInput
+                        <input
                             type="email"
                             id="email"
                             name="email"
@@ -75,19 +73,18 @@ export const CreateAccount = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
                         />
-                        <FormErrorMessage>
-                            {formik.errors.email}
-                        </FormErrorMessage>
-                    </FormGroup>
-                    <FormGroup
-                        required
+                    </FormField>
+                    <FormField
+                        id="password"
+                        label="Senha"
                         error={
                             !!formik.errors.password &&
                             !!formik.touched.password
                         }
+                        errorMsg={formik.errors.password}
+                        required
                     >
-                        <FormLabel htmlFor="password">Senha</FormLabel>
-                        <FormInput
+                        <input
                             type="password"
                             id="password"
                             name="password"
@@ -95,11 +92,8 @@ export const CreateAccount = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                         />
-                        <FormErrorMessage>
-                            {formik.errors.password}
-                        </FormErrorMessage>
-                    </FormGroup>
-                    <Button size="lg" type="submit">
+                    </FormField>
+                    <Button size="lg" type="submit" loading={loading}>
                         Criar conta
                     </Button>
                     <p className="mt-2 text-end">

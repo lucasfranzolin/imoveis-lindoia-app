@@ -5,19 +5,16 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAuth } from '../../hooks/useAuth';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 import { reset } from '../../store/slices/session';
+import { Button } from '../../stories/Button';
+import { FormField } from '../../stories/FormField';
 import { SignInParams } from '../../types/auth';
-import { Button } from '../../ui/system/Button';
-import { FormErrorMessage } from '../../ui/system/FormErrorMessage';
-import { FormGroup } from '../../ui/system/FormGroup';
-import { FormInput } from '../../ui/system/FormInput';
-import { FormLabel } from '../../ui/system/FormLabel';
 import { initialValues, validationSchema } from './form';
 
 export const SignIn = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const {
-        signIn: [{ success }, fetchSignIn],
+        signIn: [{ success, loading }, fetchSignIn],
     } = useAuth();
 
     useUpdateEffect(() => {
@@ -46,12 +43,14 @@ export const SignIn = () => {
                     onSubmit={formik.handleSubmit}
                     className="flex flex-col w-full space-y-4 mt-8 max-w-[400px]"
                 >
-                    <FormGroup
-                        required
+                    <FormField
+                        id="email"
+                        label="Email"
                         error={!!formik.errors.email && !!formik.touched.email}
+                        errorMsg={formik.errors.email}
+                        required
                     >
-                        <FormLabel htmlFor="email">Email</FormLabel>
-                        <FormInput
+                        <input
                             type="email"
                             id="email"
                             name="email"
@@ -59,19 +58,18 @@ export const SignIn = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
                         />
-                        <FormErrorMessage>
-                            {formik.errors.email}
-                        </FormErrorMessage>
-                    </FormGroup>
-                    <FormGroup
-                        required
+                    </FormField>
+                    <FormField
+                        id="password"
+                        label="Senha"
                         error={
                             !!formik.errors.password &&
                             !!formik.touched.password
                         }
+                        errorMsg={formik.errors.password}
+                        required
                     >
-                        <FormLabel htmlFor="password">Senha</FormLabel>
-                        <FormInput
+                        <input
                             type="password"
                             id="password"
                             name="password"
@@ -79,11 +77,8 @@ export const SignIn = () => {
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                         />
-                        <FormErrorMessage>
-                            {formik.errors.password}
-                        </FormErrorMessage>
-                    </FormGroup>
-                    <Button size="lg" type="submit">
+                    </FormField>
+                    <Button size="lg" type="submit" loading={loading}>
                         Entrar
                     </Button>
                     <p className="mt-2 text-end">
