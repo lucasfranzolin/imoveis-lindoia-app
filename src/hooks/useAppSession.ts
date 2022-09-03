@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { fetchSession, reset, sessionSel } from '../store/slices/session';
 import { SessionState } from '../store/slices/session/types';
 import { useAppDispatch } from './useAppDispatch';

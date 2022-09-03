@@ -24,18 +24,7 @@ export const useFetch = <T>(
             try {
                 setState({ ...initialState });
 
-                const urlWithStage =
-                    process.env.NODE_ENV === 'development'
-                        ? url
-                        : url.replace(
-                              '/api', //
-                              `/api/${process.env.NEXT_PUBLIC_STAGE}`
-                          );
-                const { data } = await http[method](
-                    urlWithStage,
-                    params,
-                    options
-                );
+                const { data } = await http[method](url, params, options);
 
                 setState({
                     data,
