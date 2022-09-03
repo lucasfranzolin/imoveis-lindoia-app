@@ -19,19 +19,18 @@ export const AuthLayout = ({ children }: IProps) => {
             email,
             error,
         },
-        ,
-        resetSession,
+        fetchSession,
     ] = useAppSession();
 
     useEffectOnce(() => {
-        resetSession();
+        fetchSession();
     });
 
     useEffect(() => {
         isFinished && email && router.push('/');
     }, [email, isFinished, router]);
 
-    if (isFinished && email) return null;
+    if (!isLoading && !error) return null;
 
     if (isLoading && !error)
         return <LoadingFallback>Verificando credenciais...</LoadingFallback>;

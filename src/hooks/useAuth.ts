@@ -1,9 +1,8 @@
 import nookies from 'nookies';
 
-import { reset } from '../store/slices/session';
 import { SignInParams, SignInResult, SignUpParams } from '../types/auth';
 import { FetchResponse } from '../types/http';
-import { useAppDispatch } from './useAppDispatch';
+import { useAppSession } from './useAppSession';
 import { useFetch } from './useFetch';
 import { useUpdateEffect } from './useUpdateEffect';
 
@@ -12,7 +11,7 @@ export const useAuth = (): {
     signOut: [FetchResponse<null>, () => void];
     signUp: [FetchResponse<null>, (params: SignUpParams) => void];
 } => {
-    const dispatch = useAppDispatch();
+    const [, getSession, resetSession] = useAppSession();
     const [signUpResponse, signUp] = useFetch<null>('/api/auth/sign-up', true);
     const [signInResponse, signIn] = useFetch<SignInResult>(
         '/api/auth/sign-in',
@@ -28,6 +27,7 @@ export const useAuth = (): {
             const { accessToken, refreshToken } = signInResponse.data;
             nookies.set(undefined, 'accessToken', accessToken);
             nookies.set(undefined, 'refreshToken', refreshToken);
+            getSession();
         }
     }, [signInResponse.success, signInResponse.data]);
 
@@ -35,7 +35,7 @@ export const useAuth = (): {
         if (signOutResponse.success) {
             nookies.destroy(undefined, 'accessToken');
             nookies.destroy(undefined, 'refreshToken');
-            dispatch(reset());
+            resetSession();
         }
     }, [signOutResponse.success]);
 

@@ -29,7 +29,11 @@ const sessionSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchSession.pending, (state) => {
-            state.isLoading = true;
+            state.email = initialState.email;
+            state.roles = initialState.roles;
+            state.error = initialState.error;
+            state.isFinished = initialState.isFinished;
+            state.isLoading = initialState.isLoading;
         });
         builder.addCase(
             fetchSession.fulfilled,
