@@ -15,6 +15,7 @@ module.exports = {
                 },
             },
         },
+        'storybook-addon-breakpoints',
     ],
     framework: '@storybook/react',
     core: {

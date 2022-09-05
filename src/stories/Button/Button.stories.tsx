@@ -18,6 +18,11 @@ export default {
                 summary: '',
             },
         },
+        loadingText: {
+            defaultValue: {
+                summary: '',
+            },
+        },
         color: {
             options: Object.keys(colorClassnames),
             control: {
@@ -45,6 +50,7 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 export const Default = Template.bind({});
 Default.args = {
     children: 'Button',
+    loadingText: 'Carregando...',
     className: '',
     color: 'primary',
     disabled: false,

@@ -8,6 +8,7 @@ module.exports = {
                 DEFAULT: 'var(--color-primary)',
                 dark: 'var(--color-primary-dark)',
                 light: 'var(--color-primary-light)',
+                'washed-out': 'var(--color-primary-washed-out)',
             },
             secondary: {
                 DEFAULT: 'var(--color-secondary)',
@@ -37,6 +38,7 @@ module.exports = {
         },
         borderColor: {
             DEFAULT: 'var(--color-line)',
+            primary: 'var(--color-primary)',
         },
         letterSpacing: {
             tightest: '-.075em',

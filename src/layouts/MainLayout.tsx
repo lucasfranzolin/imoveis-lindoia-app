@@ -1,24 +1,26 @@
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useAppSession } from '../hooks/useAppSession';
+import { useAuth } from '../hooks/useAuth';
 import { useEffectOnce } from '../hooks/useEffectOnce';
+import { useUpdateEffect } from '../hooks/useUpdateEffect';
 import { Alert } from '../stories/Alert';
 import { Breadcrumbs } from '../stories/Breadcrumbs';
 import { LoadingFallback } from '../stories/LoadingFallback';
 import { Navigation } from '../stories/Navigation';
 
-interface IProps {
+type Props = {
     children: React.ReactNode | Array<React.ReactNode>;
     isProtected?: boolean;
     allowedRoles?: Array<string>;
-}
+};
 
 export const MainLayout = ({
     children,
     isProtected = false,
     allowedRoles = [],
-}: IProps) => {
+}: Props) => {
     const router = useRouter();
     const [
         {
@@ -29,14 +31,27 @@ export const MainLayout = ({
         },
         fetchSession,
     ] = useAppSession();
+    const {
+        signOut: [{ success }, fetchSignOut],
+    } = useAuth();
+    const isAuthenticated = useMemo(() => !!email, [email]);
+    const isAdmin = useMemo(() => roles.includes('admin'), [roles]);
 
     useEffectOnce(() => {
         !isFinished && fetchSession();
     });
 
+    useUpdateEffect(() => {
+        success && router.push('/entrar');
+    }, [success, router]);
+
     useEffect(() => {
         isProtected && isFinished && !email && router.push('/entrar');
     }, [isProtected, isFinished, email, router]);
+
+    const handleClickAuth = () => {
+        isAuthenticated ? fetchSignOut() : router.push('/entrar');
+    };
 
     if (isProtected && !isLoading && !email) return null;
 
@@ -59,8 +74,9 @@ export const MainLayout = ({
         <div id="main-layout" className="w-full max-w-4xl mx-auto">
             <div className="px-4">
                 <Navigation
-                    isAuthenticated={!!email}
-                    isAdmin={roles.includes('admin')}
+                    isAuthenticated={isAuthenticated}
+                    isAdmin={isAdmin}
+                    onAuth={handleClickAuth}
                 />
                 <Breadcrumbs />
                 <main className="mt-4">{children}</main>

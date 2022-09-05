@@ -6,11 +6,11 @@ import { useEffectOnce } from '../hooks/useEffectOnce';
 import { LoadingFallback } from '../stories/LoadingFallback';
 import { Logo } from '../stories/Logo';
 
-interface IProps {
+type Props = {
     children: React.ReactNode | Array<React.ReactNode>;
-}
+};
 
-export const AuthLayout = ({ children }: IProps) => {
+export const AuthLayout = ({ children }: Props) => {
     const router = useRouter();
     const [
         {

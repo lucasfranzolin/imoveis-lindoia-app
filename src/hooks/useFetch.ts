@@ -29,7 +29,7 @@ export const useFetch = <T>(
                 setState({
                     data,
                     error: null,
-                    loading: false,
+                    loading: true,
                     success: true,
                 });
             } catch (error) {

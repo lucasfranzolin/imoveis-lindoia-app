@@ -16,9 +16,13 @@ export const parameters = {
             date: /Date$/,
         },
     },
-    previewTabs: {
-        'storybook/docs/panel': {
-            index: -1, // Docs tab as default selected
+    breakpoints: {
+        breakpointNames: {
+            sm: '640',
+            md: '768',
+            lg: '1024',
+            xl: '1280',
+            '2xl': '1536',
         },
     },
 };
