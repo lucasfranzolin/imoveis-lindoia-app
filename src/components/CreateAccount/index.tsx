@@ -98,7 +98,7 @@ export const CreateAccount = () => {
                     </Button>
                     <p className="mt-2 text-end">
                         Já possui uma conta?{' '}
-                        <Button variant="link" onClick={handleClick}>
+                        <Button as="link" onClick={handleClick}>
                             Entrar
                         </Button>
                         .

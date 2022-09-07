@@ -79,7 +79,7 @@ export const SignIn = () => {
                     </Button>
                     <p className="mt-2 text-end">
                         Ainda não é cadastrado na plataforma?{' '}
-                        <Button variant="link" onClick={handleClick}>
+                        <Button as="link" onClick={handleClick}>
                             Criar conta
                         </Button>
                         .
