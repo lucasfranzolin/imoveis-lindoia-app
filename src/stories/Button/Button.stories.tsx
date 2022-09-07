@@ -63,6 +63,7 @@ Default.args = {
     loading: false,
     size: 'md',
     as: 'default',
+    fullWidth: false,
 };
 
 export const WithIcon = Template.bind({});
@@ -76,4 +77,5 @@ WithIcon.args = {
     loading: false,
     size: 'md',
     as: 'default',
+    fullWidth: false,
 };

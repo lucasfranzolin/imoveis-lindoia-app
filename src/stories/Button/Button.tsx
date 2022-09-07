@@ -29,6 +29,7 @@ export type ButtonProps = React.DetailedHTMLProps<
     loading?: boolean;
     icon?: JSX.Element;
     loadingText?: string;
+    fullWidth?: boolean;
 };
 
 const Button = ({
@@ -41,6 +42,7 @@ const Button = ({
     icon = undefined,
     className = '',
     loadingText = undefined,
+    fullWidth = false,
     ...props
 }: ButtonProps) => {
     const isLink = as === 'link';
@@ -49,7 +51,7 @@ const Button = ({
     const cursor = isDisabled ? 'cursor-not-allowed' : 'cursor-pointer';
 
     const defaultStyles =
-        'font-bold outline-none transition duration-200 ease-in-out w-full';
+        'font-bold outline-none transition duration-200 ease-in-out';
     const styles = isLink
         ? `text-primary hover:underline`
         : `focus:ring focus:ring-4 ${variantClassnames[variant]} ${sizeClassnames[size]} ${cursor}`;
@@ -67,11 +69,11 @@ const Button = ({
             {...props}
             disabled={isDisabled}
             className={`${defaultStyles} ${styles} ${className} ${
-                isDisabled ? 'opacity-60' : ''
+                isDisabled ? 'opacity-60' : fullWidth ? 'w-full' : ''
             }`}
             onMouseDown={handleMouseDown}
         >
-            <span className="flex items-center justify-center space-x-2">
+            <span className="flex items-center justify-center space-x-1">
                 {loading ? (
                     <Spinner
                         size={size}
