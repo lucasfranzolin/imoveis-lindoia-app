@@ -20,7 +20,7 @@ export type SpinnerProps = {
 const Spinner = ({ size = 'md', color = 'primary' }: SpinnerProps) => {
     return (
         <svg
-            className={`animate-spin -ml-1 mr-3 ${sizeClassnames[size]} ${colorClassnames[color]}`}
+            className={`animate-spin ${sizeClassnames[size]} ${colorClassnames[color]}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

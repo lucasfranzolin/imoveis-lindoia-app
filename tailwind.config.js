@@ -31,6 +31,7 @@ module.exports = {
         ringWidth: {
             0: '0px',
             DEFAULT: '2px',
+            4: '4px',
         },
         borderWidth: {
             0: '0px',

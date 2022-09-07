@@ -1,67 +1,63 @@
 import Ripple from 'material-ripple-effects';
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { Spinner } from '../Spinner';
 
-const variantClassnames = {
-    default: 'block',
-    link: 'inline-block',
+export const sizeClassnames = {
+    lg: 'h-12 px-6 text-lg',
+    md: 'h-10 px-6',
+    sm: 'h-8 px-3 text-sm',
+    xs: 'h-6 px-2 text-xs',
 };
 
-const sizeClassnames = {
-    lg: 'px-6 py-4',
-    md: 'px-6 py-3',
-    sm: 'px-3 py-1 text-sm',
-    xs: 'px-2 text-sm',
-};
-
-export const colorClassnames = {
+export const variantClassnames = {
     outlined:
-        'text-primary bg-transparent hover:bg-primary-washed-out border border-primary focus:ring-primary disabled:text-primary-light disabled:border-primary-light',
-    primary:
-        'text-white bg-primary hover:bg-primary-dark disabled:text-white disabled:bg-primary-light focus:ring-primary',
+        'text-primary bg-transparent hover:bg-primary-washed-out border border-primary disabled:text-primary-light disabled:border-primary-light',
+    filled: 'text-white bg-primary hover:bg-primary-dark disabled:text-white disabled:bg-primary-light',
     transparent:
-        'text-primary bg-transparent hover:bg-primary-washed-out focus:ring-primary disabled:text-primary-light',
+        'text-primary bg-transparent hover:bg-primary-washed-out disabled:text-primary-light',
 };
 
 export type ButtonProps = React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
 > & {
-    variant?: keyof typeof variantClassnames;
+    children?: React.ReactNode;
+    as?: 'default' | 'link';
     size?: keyof typeof sizeClassnames;
-    color?: keyof typeof colorClassnames;
+    variant?: keyof typeof variantClassnames;
     loading?: boolean;
-    icon?: React.ReactNode;
+    icon?: JSX.Element;
     loadingText?: string;
 };
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
     children,
-    variant = 'default',
+    as = 'default',
     size = 'md',
-    color = 'primary',
+    variant = 'filled',
     disabled = false,
     loading = false,
     icon = undefined,
     className = '',
     loadingText = undefined,
     ...props
-}) => {
-    const isLink = variant === 'link';
+}: ButtonProps) => {
+    const isLink = as === 'link';
     const rippleEffect = new Ripple();
     const isDisabled = disabled || loading;
     const cursor = isDisabled ? 'cursor-not-allowed' : 'cursor-pointer';
+
     const defaultStyles =
-        'flex items-center justify-center font-bold outline-none transition duration-200 ease-in-out focus:ring-0 rounded-full';
+        'font-bold outline-none transition duration-200 ease-in-out w-full';
     const styles = isLink
-        ? 'text-primary hover:underline'
-        : `${colorClassnames[color]} ${sizeClassnames[size]} ${cursor} ${className}`;
+        ? `text-primary hover:underline`
+        : `focus:ring focus:ring-4 ${variantClassnames[variant]} ${sizeClassnames[size]} ${cursor}`;
 
     function handleMouseDown(e: any) {
         const onMouseDown = props.onMouseDown;
         if (!isDisabled && !isLink) {
-            rippleEffect.create(e, variant === 'default' ? 'light' : 'dark');
+            rippleEffect.create(e, isLink ? 'dark' : 'light');
         }
         return typeof onMouseDown === 'function' && onMouseDown(e);
     }
@@ -70,23 +66,25 @@ const Button: React.FC<ButtonProps> = ({
         <button
             {...props}
             disabled={isDisabled}
-            className={`${defaultStyles} ${styles}`}
+            className={`${defaultStyles} ${styles} ${className} ${
+                isDisabled ? 'opacity-60' : ''
+            }`}
             onMouseDown={handleMouseDown}
         >
-            <span
-                className={`flex items-center space-x-2 ${
-                    isDisabled ? 'opacity-80' : ''
-                }`}
-            >
+            <span className="flex items-center justify-center space-x-2">
                 {loading ? (
                     <Spinner
                         size={size}
-                        color={color === 'primary' ? 'white' : 'primary'}
+                        color={variant === 'filled' ? 'white' : 'primary'}
                     />
                 ) : icon ? (
                     icon
                 ) : null}
-                {loading && !!loadingText ? loadingText : children}
+                {!loading ? (
+                    <span>{children}</span>
+                ) : loadingText ? (
+                    <span>{loadingText}</span>
+                ) : null}
             </span>
         </button>
     );

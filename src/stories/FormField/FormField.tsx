@@ -1,4 +1,10 @@
-import { cloneElement, isValidElement, memo } from 'react';
+import {
+    Children,
+    cloneElement,
+    forwardRef,
+    isValidElement,
+    memo,
+} from 'react';
 
 export type FormFieldProps = {
     children: React.ReactNode;
@@ -10,35 +16,47 @@ export type FormFieldProps = {
     transparent?: boolean;
 };
 
-const FormField = ({
-    children,
-    error = false,
-    errorMsg,
-    id,
-    label,
-    required = false,
-    transparent = false,
-}: FormFieldProps) => {
-    const bg = transparent ? 'bg-transparent' : 'bg-input-bg';
-    const ring = error ? 'ring ring-error' : 'ring-title-active';
-    const className = `w-full py-3 px-4 rounded-xl text-black placeholder-placeholder focus:outline-none focus:ring ${bg} ${ring}`;
+const FormField = forwardRef(
+    (
+        {
+            children,
+            error = false,
+            errorMsg,
+            id,
+            label,
+            required = false,
+            transparent = false,
+        }: FormFieldProps,
+        ref
+    ) => {
+        const bg = transparent ? 'bg-transparent' : 'bg-input-bg';
+        const ring = error ? 'ring ring-error' : 'ring-title-active';
+        const className = `w-full py-3 px-4 text-black placeholder-placeholder focus:outline-none focus:ring ${bg} ${ring}`;
 
-    const childrenWithProps = isValidElement(children)
-        ? cloneElement(children, { className })
-        : children;
+        const childrenWithProps = Children.map(children, (child) =>
+            isValidElement(child)
+                ? cloneElement(child, {
+                      className,
+                      ref,
+                  })
+                : child
+        );
 
-    return (
-        <div className="flex flex-col space-y-1">
-            <label className="text-label" htmlFor={id}>
-                {label}
-                {required && <span className="font-bold"> *</span>}
-            </label>
-            {childrenWithProps}
-            {error && errorMsg && (
-                <span className="text-sm text-error">{errorMsg}</span>
-            )}
-        </div>
-    );
-};
+        return (
+            <div className="flex flex-col space-y-1">
+                <label className="text-label" htmlFor={id}>
+                    {label}
+                    {required && <span className="font-bold"> *</span>}
+                </label>
+                {childrenWithProps}
+                {error && errorMsg && (
+                    <span className="text-sm text-error">{errorMsg}</span>
+                )}
+            </div>
+        );
+    }
+);
+
+FormField.displayName = 'FormField';
 
 export default memo(FormField);

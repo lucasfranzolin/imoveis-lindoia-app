@@ -1,7 +1,8 @@
+import { HandThumbUpIcon } from '@heroicons/react/24/solid';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import Button, { colorClassnames } from './Button';
+import Button, { variantClassnames } from './Button';
 
 export default {
     title: 'Components/Button',
@@ -23,13 +24,13 @@ export default {
                 summary: '',
             },
         },
-        color: {
-            options: Object.keys(colorClassnames),
+        variant: {
+            options: Object.keys(variantClassnames),
             control: {
                 type: 'radio',
             },
             defaultValue: {
-                summary: 'primary',
+                summary: 'filled',
             },
         },
         disabled: {
@@ -42,6 +43,11 @@ export default {
                 summary: false,
             },
         },
+        icon: {
+            table: {
+                disable: true,
+            },
+        },
     },
 } as ComponentMeta<typeof Button>;
 
@@ -49,12 +55,25 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    children: 'Button',
+    children: 'default',
     loadingText: 'Carregando...',
     className: '',
-    color: 'primary',
+    variant: 'filled',
     disabled: false,
     loading: false,
     size: 'md',
-    variant: 'default',
+    as: 'default',
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+    icon: <HandThumbUpIcon className="h-5" />,
+    children: 'like',
+    loadingText: 'Carregando...',
+    className: '',
+    variant: 'filled',
+    disabled: false,
+    loading: false,
+    size: 'md',
+    as: 'default',
 };

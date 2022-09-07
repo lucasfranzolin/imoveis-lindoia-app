@@ -17,3 +17,15 @@ Default.args = {
     isAuthenticated: false,
     isAdmin: false,
 };
+
+export const Authenticated = Template.bind({});
+Authenticated.args = {
+    isAuthenticated: true,
+    isAdmin: false,
+};
+
+export const Admin = Template.bind({});
+Admin.args = {
+    isAuthenticated: true,
+    isAdmin: true,
+};

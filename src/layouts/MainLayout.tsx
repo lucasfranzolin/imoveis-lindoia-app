@@ -71,7 +71,7 @@ export const MainLayout = ({
         );
 
     return (
-        <div id="main-layout" className="w-full max-w-4xl mx-auto">
+        <div id="main-layout" className="w-full max-w-6xl mx-auto">
             <div className="px-4">
                 <Navigation
                     isAuthenticated={isAuthenticated}
