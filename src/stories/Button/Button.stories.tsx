@@ -1,4 +1,4 @@
-import { HandThumbUpIcon } from '@heroicons/react/24/solid';
+import { HandThumbUpIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
@@ -68,9 +68,21 @@ Default.args = {
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-    icon: <HandThumbUpIcon className="h-5" />,
+    icon: <HandThumbUpIcon />,
     children: 'like',
     loadingText: 'Carregando...',
+    className: '',
+    variant: 'filled',
+    disabled: false,
+    loading: false,
+    size: 'md',
+    as: 'default',
+    fullWidth: false,
+};
+
+export const IconButton = Template.bind({});
+IconButton.args = {
+    icon: <HeartIcon />,
     className: '',
     variant: 'filled',
     disabled: false,

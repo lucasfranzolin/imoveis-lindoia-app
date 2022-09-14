@@ -20,7 +20,7 @@ const typeClassnames = {
 };
 
 export type AlertProps = {
-    children: string;
+    children?: string;
     title: string;
     type?: keyof typeof typeClassnames;
     size?: keyof typeof sizeClassnames;
@@ -73,7 +73,7 @@ const Alert = ({
                     }`}
                 >
                     <span className="font-bold">{title}</span>
-                    <span>{children}</span>
+                    {children && <span>{children}</span>}
                 </div>
             </div>
         </div>

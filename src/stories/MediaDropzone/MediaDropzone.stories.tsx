@@ -6,6 +6,13 @@ import MediaDropzone from './MediaDropzone';
 export default {
     title: 'Components/MediaDropzone',
     component: MediaDropzone,
+    argTypes: {
+        files: {
+            table: {
+                disable: true,
+            },
+        },
+    },
 } as ComponentMeta<typeof MediaDropzone>;
 
 const Template: ComponentStory<typeof MediaDropzone> = (args) => (
@@ -15,6 +22,5 @@ const Template: ComponentStory<typeof MediaDropzone> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
     files: [],
-    onChange: console.log,
-    onError: console.log,
+    onSave: console.log,
 };

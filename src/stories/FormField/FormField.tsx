@@ -6,6 +6,13 @@ import {
     memo,
 } from 'react';
 
+export const sizeClassnames = {
+    lg: 'text-lg',
+    md: 'text-md',
+    sm: 'text-sm',
+    xs: 'text-xs',
+};
+
 export type FormFieldProps = {
     children: React.ReactNode;
     error?: boolean;
@@ -14,6 +21,8 @@ export type FormFieldProps = {
     label: string;
     required?: boolean;
     transparent?: boolean;
+    fullWidth?: boolean;
+    size?: keyof typeof sizeClassnames;
 };
 
 const FormField = forwardRef(
@@ -26,17 +35,22 @@ const FormField = forwardRef(
             label,
             required = false,
             transparent = false,
+            fullWidth = false,
+            size = 'md',
         }: FormFieldProps,
         ref
     ) => {
         const bg = transparent ? 'bg-transparent' : 'bg-input-bg';
-        const ring = error ? 'ring ring-error' : 'ring-title-active';
-        const className = `w-full py-3 px-4 text-black placeholder-placeholder focus:outline-none focus:ring ${bg} ${ring}`;
+        const ring = error ? 'ring-error' : 'ring-primary';
+        const width = fullWidth ? 'w-full' : `max-w-${size}`;
+
+        const className = `py-3 px-4 text-black placeholder-placeholder focus:outline-none focus:ring ${bg} ${ring} ${width}`;
 
         const childrenWithProps = Children.map(children, (child) =>
             isValidElement(child)
                 ? cloneElement(child, {
                       className,
+                      width,
                       ref,
                   })
                 : child

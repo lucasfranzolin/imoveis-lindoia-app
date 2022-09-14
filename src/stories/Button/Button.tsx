@@ -1,7 +1,14 @@
 import Ripple from 'material-ripple-effects';
-import { memo } from 'react';
+import { cloneElement, memo } from 'react';
 
 import { Spinner } from '../Spinner';
+
+const iconSizeClassnames = {
+    lg: 'h-8',
+    md: 'h-6',
+    sm: 'h-4',
+    xs: 'h-2',
+};
 
 export const sizeClassnames = {
     lg: 'h-12 px-6 text-lg',
@@ -46,15 +53,19 @@ const Button = ({
     ...props
 }: ButtonProps) => {
     const isLink = as === 'link';
+    const isIconButton = children === undefined;
     const rippleEffect = new Ripple();
     const isDisabled = disabled || loading;
     const cursor = isDisabled ? 'cursor-not-allowed' : 'cursor-pointer';
 
-    const defaultStyles =
-        'font-bold outline-none transition duration-200 ease-in-out';
+    const defaultStyles = `font-bold focus:outline-none outline-none transition-all duration-200 ease-in-out ${
+        isDisabled ? 'opacity-60' : fullWidth ? 'w-full' : ''
+    }`;
     const styles = isLink
         ? `text-primary hover:underline`
-        : `focus:ring focus:ring-4 ${variantClassnames[variant]} ${sizeClassnames[size]} ${cursor}`;
+        : `${variantClassnames[variant]} ${cursor} ${
+              isIconButton ? 'p-2 rounded-full' : sizeClassnames[size]
+          }`;
 
     function handleMouseDown(e: any) {
         const onMouseDown = props.onMouseDown;
@@ -68,23 +79,23 @@ const Button = ({
         <button
             {...props}
             disabled={isDisabled}
-            className={`${defaultStyles} ${styles} ${className} ${
-                isDisabled ? 'opacity-60' : fullWidth ? 'w-full' : ''
-            }`}
+            className={`${defaultStyles} ${styles} ${className}`}
             onMouseDown={handleMouseDown}
         >
-            <span className="flex items-center justify-center space-x-1">
+            <span className="flex items-center justify-center space-x-2">
                 {loading ? (
                     <Spinner
                         size={size}
                         color={variant === 'filled' ? 'white' : 'primary'}
                     />
                 ) : icon ? (
-                    icon
+                    cloneElement(icon, {
+                        className: iconSizeClassnames[size],
+                    })
                 ) : null}
-                {!loading ? (
+                {!loading && children ? (
                     <span>{children}</span>
-                ) : loadingText ? (
+                ) : loadingText && children ? (
                     <span>{loadingText}</span>
                 ) : null}
             </span>

@@ -36,6 +36,7 @@ module.exports = {
         borderWidth: {
             0: '0px',
             DEFAULT: '1px',
+            2: '2px',
         },
         borderColor: {
             DEFAULT: 'var(--color-line)',

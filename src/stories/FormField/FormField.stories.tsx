@@ -28,6 +28,7 @@ Input.args = {
     id: 'testId-input',
     label: 'Exemplo',
     required: true,
+    size: 'md',
 };
 
 export const Select = Template.bind({});
@@ -41,7 +42,7 @@ Select.args = {
                 { value: 4, label: 'Benedict Kessler', disabled: true },
                 { value: 5, label: 'Katelyn Rohan', disabled: false },
             ]}
-            selected={undefined}
+            value={undefined}
             onChange={console.log}
         />
     ),
@@ -50,4 +51,5 @@ Select.args = {
     id: 'testId-select',
     label: 'Exemplo',
     required: true,
+    size: 'md',
 };
