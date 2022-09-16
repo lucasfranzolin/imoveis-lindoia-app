@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 
 import { useAuth } from '../../hooks/useAuth';
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
-import { Button } from '../../stories/Button';
-import { FormField } from '../../stories/FormField';
+import { Button, FormField } from '../../stories';
 import { SignUpParams } from '../../types/auth';
 import { initialValues, validationSchema } from './form';
 

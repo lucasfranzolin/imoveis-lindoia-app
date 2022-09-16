@@ -5,7 +5,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import { useEffectOnce } from '../../hooks/useEffectOnce';
 import { bytesToMegaBytes } from '../../utils/files';
-import { Button } from '../Button';
+import { Button } from '..';
 
 type Props = {
     file: File;

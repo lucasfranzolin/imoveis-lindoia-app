@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import LoadingFallback from './LoadingFallback';
+import LoadingFallback from '.';
 
 export default {
     title: 'Components/LoadingFallback',

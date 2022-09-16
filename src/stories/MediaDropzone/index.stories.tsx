@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import MediaDropzone from './MediaDropzone';
+import MediaDropzone from '.';
 
 export default {
     title: 'Components/MediaDropzone',

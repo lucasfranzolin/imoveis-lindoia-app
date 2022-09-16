@@ -1,8 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import { Select as SelectListBox } from '.';
-import FormField from './FormField';
+import FormField from '.';
 
 export default {
     title: 'Components/FormField',

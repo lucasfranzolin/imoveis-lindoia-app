@@ -3,11 +3,10 @@ import { useEffect } from 'react';
 
 import { useAppSession } from '../hooks/useAppSession';
 import { useEffectOnce } from '../hooks/useEffectOnce';
-import { LoadingFallback } from '../stories/LoadingFallback';
-import { Logo } from '../stories/Logo';
+import { LoadingFallback, Logo } from '../stories';
 
 type Props = {
-    children: React.ReactNode | Array<React.ReactNode>;
+    children: React.ReactNode | React.ReactNode[];
 };
 
 export const AuthLayout = ({ children }: Props) => {

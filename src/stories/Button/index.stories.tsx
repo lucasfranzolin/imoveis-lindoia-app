@@ -2,7 +2,7 @@ import { HandThumbUpIcon, HeartIcon } from '@heroicons/react/24/solid';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import Button, { variantClassnames } from './Button';
+import Button, { variantClassnames } from '.';
 
 export default {
     title: 'Components/Button',

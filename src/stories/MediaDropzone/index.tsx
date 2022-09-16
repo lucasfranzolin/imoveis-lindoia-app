@@ -6,9 +6,9 @@ import { useList } from 'react-use';
 
 import { useUpdateEffect } from '../../hooks/useUpdateEffect';
 import { calcTotalMegaBytes, megaBytesToBytes } from '../../utils/files';
-import { Alert } from '../Alert';
-import { Button } from '../Button';
-import { Progress } from '../Progress';
+import { Progress } from '..';
+import Alert from '../Alert';
+import Button from '../Button';
 import DraggableView from './DraggableView';
 import DroppableView from './DroppableView';
 import { removeDups, reorder } from './utils';

@@ -1,8 +1,6 @@
-import { Bars3Icon } from '@heroicons/react/24/solid';
 import NextLink from 'next/link';
 
-import { Button } from '../Button';
-import { Logo } from '../Logo';
+import { Button, Logo } from '..';
 
 type Props = {
     isAuthenticated: boolean;

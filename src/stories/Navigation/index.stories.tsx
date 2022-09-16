@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 
-import Navigation from './Navigation';
+import Navigation from '.';
 
 export default {
     title: 'Components/Navigation',

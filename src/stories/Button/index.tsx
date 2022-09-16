@@ -1,7 +1,7 @@
 import Ripple from 'material-ripple-effects';
 import { cloneElement, memo } from 'react';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from '..';
 
 const iconSizeClassnames = {
     lg: 'h-8',

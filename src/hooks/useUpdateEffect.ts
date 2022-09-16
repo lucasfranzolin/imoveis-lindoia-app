@@ -2,7 +2,7 @@ import { EffectCallback, useEffect, useRef } from 'react';
 
 export const useUpdateEffect = (
     effect: EffectCallback,
-    dependencyArray: Array<any>
+    dependencyArray: any[]
 ) => {
     const isInitialMount = useRef(true);
 

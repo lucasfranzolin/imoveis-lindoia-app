@@ -5,15 +5,12 @@ import { useAppSession } from '../hooks/useAppSession';
 import { useAuth } from '../hooks/useAuth';
 import { useEffectOnce } from '../hooks/useEffectOnce';
 import { useUpdateEffect } from '../hooks/useUpdateEffect';
-import { Alert } from '../stories/Alert';
-import { Breadcrumbs } from '../stories/Breadcrumbs';
-import { LoadingFallback } from '../stories/LoadingFallback';
-import { Navigation } from '../stories/Navigation';
+import { Alert, LoadingFallback, Navigation } from '../stories';
 
 type Props = {
-    children: React.ReactNode | Array<React.ReactNode>;
+    children: React.ReactNode | React.ReactNode[];
     isProtected?: boolean;
-    allowedRoles?: Array<string>;
+    allowedRoles?: string[];
 };
 
 export const MainLayout = ({
@@ -78,7 +75,6 @@ export const MainLayout = ({
                     isAdmin={isAdmin}
                     onAuth={handleClickAuth}
                 />
-                <Breadcrumbs />
                 <main className="mt-4">{children}</main>
             </div>
         </div>
