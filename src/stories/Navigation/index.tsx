@@ -1,4 +1,5 @@
 import NextLink from 'next/link';
+import { memo } from 'react';
 
 import { Button, Logo } from '..';
 
@@ -32,4 +33,4 @@ const Navigation = ({ isAuthenticated, isAdmin, onAuth }: Props) => {
     );
 };
 
-export default Navigation;
+export default memo(Navigation);
