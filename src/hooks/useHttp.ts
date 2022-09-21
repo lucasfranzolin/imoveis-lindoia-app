@@ -48,11 +48,11 @@ export const useHttp = (isPublic = false): AxiosInstance => {
                                 newAccessToken
                             );
                             error.config.headers.authorization = `Bearer ${newAccessToken}`;
+                            return httpClient(error.config);
                         } catch (err) {
                             console.error(err);
                             return Promise.reject(error);
                         }
-                        return httpClient.request(error.config);
                     }
                     return Promise.reject(error);
                 }

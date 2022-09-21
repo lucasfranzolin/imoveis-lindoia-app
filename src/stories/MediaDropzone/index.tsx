@@ -13,13 +13,17 @@ import DraggableView from './DraggableView';
 import DroppableView from './DroppableView';
 import { removeDups, reorder } from './utils';
 
-type Props = {
+export type MediaDropzoneProps = {
     files: Array<File>;
     maxMegaBytes?: number;
     onSave: (files: Array<File>) => void;
 };
 
-const MediaDropzone = ({ files, maxMegaBytes = 3, onSave }: Props) => {
+const MediaDropzone = ({
+    files,
+    maxMegaBytes = 3,
+    onSave,
+}: MediaDropzoneProps) => {
     const [fileList, { push, clear, set, removeAt }] = useList<File>(files);
     const [errorList, { push: pushError }] = useList<string>([]);
     const [totalMb, setTotalMb] = useState<number>(calcTotalMegaBytes(files));

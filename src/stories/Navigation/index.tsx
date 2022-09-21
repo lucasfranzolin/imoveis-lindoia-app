@@ -3,17 +3,17 @@ import { memo } from 'react';
 
 import { Button, Logo } from '..';
 
-type Props = {
+export type NavigationProps = {
     isAuthenticated: boolean;
     isAdmin: boolean;
     onAuth: () => void;
 };
 
-const Navigation = ({ isAuthenticated, isAdmin, onAuth }: Props) => {
+const Navigation = ({ isAuthenticated, isAdmin, onAuth }: NavigationProps) => {
     return (
         <nav className="bg-white w-full py-4 md:py-6">
             <div className="flex justify-between items-center">
-                <Logo size="2xl" />
+                <Logo size="2xl" link />
                 <ul className="flex gap-4 items-center">
                     {isAdmin && (
                         <li>

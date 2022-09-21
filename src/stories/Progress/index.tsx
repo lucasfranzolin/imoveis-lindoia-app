@@ -6,7 +6,7 @@ const bgClassnames = {
     warning: 'bg-warning',
 };
 
-type Props = {
+export type ProgressProps = {
     value: number;
     label?: string;
     labelPlacement?: 'left' | 'right';
@@ -18,7 +18,7 @@ const Progress = ({
     label,
     labelPlacement = 'right',
     bg = 'primary',
-}: Props) => {
+}: ProgressProps) => {
     const isRight = labelPlacement === 'right';
     const candidateWidth = value * 100;
     const width = candidateWidth > 100 ? 100 : candidateWidth;

@@ -1,4 +1,5 @@
-import { memo } from 'react';
+import { useRouter } from 'next/router';
+import { memo, useCallback } from 'react';
 
 const sizeClassnames = {
     '4xl': 'text-4xl',
@@ -13,8 +14,21 @@ export type LogoProps = {
 };
 
 const Logo = ({ size = 'lg', link = false }: LogoProps) => {
+    const router = useRouter();
+
+    const handleClick = useCallback(() => {
+        link && router.push('/');
+    }, [link, router]);
+
     return (
-        <div className={`uppercase text-center ${sizeClassnames[size]}`}>
+        <div
+            className={`uppercase text-center ${sizeClassnames[size]} ${
+                link ? 'cursor-pointer' : ''
+            }`}
+            onClick={handleClick}
+            onKeyDown={handleClick}
+            role={link ? 'link' : 'heading'}
+        >
             <span className="text-body">imóveis</span>
             <span className="font-bold text-primary">lindóia</span>
         </div>

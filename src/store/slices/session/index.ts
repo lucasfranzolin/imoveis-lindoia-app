@@ -45,7 +45,7 @@ const sessionSlice = createSlice({
             }
         );
         builder.addCase(fetchSession.rejected, (state, action) => {
-            state.error = action.error.message || 'Problema de sessao.';
+            state.error = action.error.message || 'Problema de sessão.';
             state.isFinished = true;
             state.isLoading = false;
         });
