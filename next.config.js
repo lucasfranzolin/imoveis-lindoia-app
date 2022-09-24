@@ -1,8 +1,6 @@
 module.exports = () => {
     const serviceUrl =
-        process.env.NODE_ENV === 'development'
-            ? 'http://localhost:4001'
-            : process.env.NEXT_PUBLIC_SERVICE_URL;
+        process.env.NEXT_PUBLIC_SERVICE_URL || 'http://localhost:4001';
 
     /**
      * @type {import('next').NextConfig}
