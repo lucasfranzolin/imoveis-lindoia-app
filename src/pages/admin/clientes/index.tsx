@@ -1,10 +1,10 @@
-import { Customers } from '../../../components/Admin';
+import { AdminCustomers } from '../../../components/admin/AdminCustomers';
 import { MainLayout } from '../../../layouts/MainLayout';
 
 const AdminClientesPage = () => {
     return (
         <MainLayout isProtected allowedRoles={['admin']}>
-            <Customers />
+            <AdminCustomers />
         </MainLayout>
     );
 };

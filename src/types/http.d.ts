@@ -5,6 +5,7 @@ export type FetchResponse<T> = {
     error: string | null;
     loading: boolean;
     success: boolean;
+    message: AxiosError<any>;
 };
 
 export type Method = 'get' | 'delete' | 'post' | 'put' | 'patch';

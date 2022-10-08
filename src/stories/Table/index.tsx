@@ -1,35 +1,79 @@
 import { memo } from 'react';
 
-export type TableProps = {
-    columns: any[];
-    rows: any[];
+export type Column = {
+    key: string;
+    label: string;
+    align?: 'left' | 'center' | 'right';
+    nopadding?: boolean;
 };
 
-const Table = ({}: TableProps) => {
+export type Row = Record<string, string | React.ReactNode>;
+
+export type TableProps = {
+    layout?: 'auto' | 'fixed';
+    className?: string;
+    columns: Column[];
+    rows: Row[];
+    striped?: boolean;
+    divide: boolean;
+};
+
+const Table = ({
+    layout = 'auto',
+    className = '',
+    columns,
+    rows,
+    striped = false,
+    divide = false,
+}: TableProps) => {
+    const divider = divide ? 'divide-y' : null;
+    const tableStyles = `table-${layout} ${className}`;
+    const tbodyStyles = `${divider}`;
+
     return (
-        <table>
+        <table className={tableStyles}>
             <thead>
                 <tr>
-                    <th>Month</th>
-                    <th>Savings</th>
+                    {columns.map((col) => {
+                        const { key, label, align } = col;
+                        const alignment =
+                            !align || align === 'center'
+                                ? 'text-center'
+                                : align === 'left'
+                                ? 'text-start'
+                                : 'text-end';
+                        return (
+                            <th key={`th-${key}`} className={`${alignment}`}>
+                                {label}
+                            </th>
+                        );
+                    })}
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>January</td>
-                    <td>$100</td>
-                </tr>
-                <tr>
-                    <td>February</td>
-                    <td>$80</td>
-                </tr>
+            <tbody className={tbodyStyles}>
+                {rows.map((row, index) => {
+                    const bg =
+                        !striped || index % 2 !== 0 ? 'bg-white' : 'bg-bg';
+                    return (
+                        <tr key={`tr-${index}`} className={`${bg}`}>
+                            {columns.map((col, colIndex) => {
+                                const { key, nopadding } = col;
+                                const padding = !!nopadding
+                                    ? 'p-0'
+                                    : 'px-6 py-3';
+                                return (
+                                    <td
+                                        key={`td-${key}-${index}-${colIndex}`}
+                                        className={`${padding}`}
+                                    >
+                                        {row[key]}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    );
+                })}
             </tbody>
-            <tfoot>
-                <tr>
-                    <td>Sum</td>
-                    <td>$180</td>
-                </tr>
-            </tfoot>
         </table>
     );
 };

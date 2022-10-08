@@ -18,7 +18,7 @@ export type FormFieldProps = {
     error?: boolean;
     errorMsg?: string;
     id: string;
-    label: string;
+    label?: string;
     required?: boolean;
     transparent?: boolean;
     fullWidth?: boolean;
@@ -48,7 +48,7 @@ const FormField = forwardRef(
 
         const childrenWithProps = Children.map(children, (child) =>
             isValidElement(child)
-                ? cloneElement(child, {
+                ? cloneElement(child as React.ReactElement<any>, {
                       className,
                       width,
                       ref,

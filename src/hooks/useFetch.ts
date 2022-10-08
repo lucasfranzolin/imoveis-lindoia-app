@@ -9,6 +9,7 @@ const initialState = {
     error: null,
     loading: false,
     success: false,
+    message: null,
 };
 
 export const useFetch = <T>(
@@ -22,22 +23,29 @@ export const useFetch = <T>(
     const fetch: FetchMethod = useCallback(
         async (method, params = {}, options = {}) => {
             try {
-                setState({ ...initialState });
+                setState({
+                    ...initialState,
+                    loading: true,
+                });
 
                 const { data } = await http[method](url, params, options);
 
                 setState({
                     data,
                     error: null,
-                    loading: true,
+                    loading: false,
                     success: true,
+                    message: null,
                 });
             } catch (error) {
                 setState({
                     data: null,
-                    error: (error as AxiosError<any>).response?.data.message,
+                    error:
+                        (error as AxiosError<any>).response?.data.message ||
+                        'Erro inesperado.',
                     loading: false,
-                    success: true,
+                    success: false,
+                    message: error,
                 });
             }
         },

@@ -28,6 +28,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
         <Provider store={store}>
             <Component {...pageProps} />
+            <div id="modal-portal"></div>
         </Provider>
     );
 };

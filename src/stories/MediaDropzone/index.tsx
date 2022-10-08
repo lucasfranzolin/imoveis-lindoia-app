@@ -155,7 +155,7 @@ const MediaDropzone = ({
                         <Alert
                             isInline
                             size="sm"
-                            title="Atencao."
+                            title="Atenção."
                             type="warning"
                         >
                             Capacidade maxima atingida.
